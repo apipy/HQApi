@@ -34,6 +34,9 @@ print(str(api.get_show()))
 | `get_show`         | Information about next show                       |
 | `easter_egg`       | Easter egg, gives 1 life once a week              |
 | `make_payout`      | Makes payout to your paypal (Can't bypass ban)    |
+| `send_code`        | Send sms or call to number                        |
+| `confirm_code`     | Confirm received sms                              |
+| `login`            | Login or register account                         |
 | `custom`           | Custom request                                    |
 
 ## Regions
