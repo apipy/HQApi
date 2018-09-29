@@ -9,7 +9,7 @@ class BaseHQApi:
         self.authtoken = authtoken
         self.region = region
 
-    def fetch(self, method="GET", func="", data=[]):
+    def fetch(self, method="GET", func="", data={}):
         return method, func, data
 
     def get_users_me(self):
@@ -29,6 +29,19 @@ class BaseHQApi:
 
     def make_payout(self, email):
         return self.fetch("POST", "users/me/payouts", {"email": email})
+
+    def send_code(self, phone, method):
+        return self.fetch("POST", "verifications", {"method": method, "phone": phone})
+
+    def confirm_code(self, verificationid, code):
+        return self.fetch("POST", "verifications/"+verificationid, {"code": code})
+
+    def login(self, verificationid, name, refferal):
+        return self.fetch("POST", "users", {
+            "country": base64.b64encode(str(self.region).encode()).decode(), "language": "eu",
+            "referringUsername": refferal,
+            "username": name,
+            "verificationId": verificationid})
 
     def custom(self, method, func, data):
         return self.fetch(method, func, data)
