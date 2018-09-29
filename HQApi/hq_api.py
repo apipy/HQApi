@@ -15,6 +15,9 @@ class BaseHQApi:
     def get_users_me(self):
         return self.fetch("GET", "users/me")
 
+    def get_user(self, id):
+        return self.fetch("GET", "users/"+str(id))
+
     def get_payouts_me(self):
         return self.fetch("GET", "users/me/payouts")
 
@@ -27,6 +30,8 @@ class BaseHQApi:
     def make_payout(self, email):
         return self.fetch("POST", "users/me/payouts", {"email": email})
 
+    def custom(self, method, func, data):
+        return self.fetch(method, func, data)
 
 class HQApi(BaseHQApi):
     def __init__(self, authtoken, region="1"):
