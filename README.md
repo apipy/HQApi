@@ -1,4 +1,4 @@
-# HQ-Lib
+# HQApi
 HQ Trivia API, written in Python
 
 ## Installation
