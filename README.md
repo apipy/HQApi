@@ -34,7 +34,7 @@ print(str(api.get_show()))
 | `easter_egg`       | Easter egg, gives 1 life once a week              |
 | `make_payout`      | Makes payout to your paypal (Can't bypass ban)    |
 
-##Regions
+## Regions
 | Region | Description           |
 |--------|-----------------------|
 | `1`    | US, United States     |
