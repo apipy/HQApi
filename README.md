@@ -36,7 +36,14 @@ print(str(api.get_show()))
 | `make_payout`      | Makes payout to your paypal (Can't bypass ban)    |
 | `send_code`        | Send sms or call to number                        |
 | `confirm_code`     | Confirm received sms                              |
-| `login`            | Login or register account                         |
+| `register`         | Register account                                  |
+| `aws_credentials`  | Get credentials                                   |
+| `delete_avatar`    | Delete avatar                                     |
+| `add_friend`       | Add friend                                        |
+| `friend_status`    | Get friend status                                 |
+| `remove_friend`    | Delete friend                                     |
+| `accept_friend`    | Accept friend                                     |
+| `check_username`   | Check username availability                       |
 | `custom`           | Custom request                                    |
 
 ## Regions
