@@ -9,7 +9,7 @@ pip3 install HQApi
 
 2. Install from sources:
 ```bash
-git clone https://github.com/katant/HQ-Lib.git
+git clone https://github.com/katant/HQApi.git
 cd HQApi
 python3 setup.py install
 ```
