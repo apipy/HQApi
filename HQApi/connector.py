@@ -2,7 +2,7 @@ import base64
 import aiohttp
 
 
-class Connector():
+class Connector:
     def __init__(self, authtoken, region):
         self.session = None
         self.authToken = authtoken

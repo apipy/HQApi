@@ -9,6 +9,12 @@ class BaseHQApi:
         self.authtoken = authtoken
         self.region = region
 
+    def bearer(self):
+        return self.authtoken
+
+    def country(self):
+        return self.region
+
     def fetch(self, method="GET", func="", data={}):
         return method, func, data
 
@@ -62,13 +68,14 @@ class BaseHQApi:
         return self.fetch("DELETE", "friends/{}".format(str(id)))
 
     def accept_friend(self, id):
-        return self.fetch("PUT", "friends/{user_id}/status".format(str(id)), {"status": "ACCEPTED"})
+        return self.fetch("PUT", "friends/{}/status".format(str(id)), {"status": "ACCEPTED"})
 
     def check_username(self, name):
         return self.fetch("POST", "usernames/available", {"username": name})
 
     def custom(self, method, func, data):
         return self.fetch(method, func, data)
+
 
 class HQApi(BaseHQApi):
     def __init__(self, authtoken, region="1"):
@@ -132,7 +139,7 @@ class AsyncHQApi(BaseHQApi):
                 return content
         elif method == "DELETE":
             async with self.connector.session.delete("https://api-quiz.hype.space/{}".format(func),
-                                                    data=data) as response:
+                                                     data=data) as response:
                 content = await response.json()
                 error = content.get("error")
                 if error:
