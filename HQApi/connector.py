@@ -10,7 +10,7 @@ class Connector():
 
     async def __aenter__(self):
         headers = {"x-hq-stk": base64.b64encode(str(self.region).encode()).decode(),
-                   "x-hq-client": "Android/1.19.1",
+                   "x-hq-client": "Android/1.20.1",
                    "Authorization": "Bearer " + self.authToken}
         self.session = aiohttp.ClientSession(headers=headers)
 
