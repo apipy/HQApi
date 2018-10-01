@@ -78,7 +78,7 @@ class HQApi(BaseHQApi):
         self.session = requests.Session()
         self.session.headers.update({
             "x-hq-stk": base64.b64encode(str(self.region).encode()).decode(),
-            "x-hq-client": "Android/1.19.1",
+            "x-hq-client": "Android/1.20.1",
             "Authorization": "Bearer " + self.authToken})
 
     def fetch(self, method="GET", func="", data={}):
@@ -124,6 +124,14 @@ class AsyncHQApi(BaseHQApi):
                 return content
         elif method == "PATCH":
             async with self.connector.session.patch("https://api-quiz.hype.space/{}".format(func),
+                                                    data=data) as response:
+                content = await response.json()
+                error = content.get("error")
+                if error:
+                    raise ApiResponseError(json.dumps(content))
+                return content
+        elif method == "DELETE":
+            async with self.connector.session.delete("https://api-quiz.hype.space/{}".format(func),
                                                     data=data) as response:
                 content = await response.json()
                 error = content.get("error")
