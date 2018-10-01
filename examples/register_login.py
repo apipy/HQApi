@@ -12,6 +12,6 @@ api.confirm_code(verification["verificationId"], str(code))
 name = str(input("Name... "))
 refferal = str(input("Refferal... "))
 
-bearer = api.login(verification["verificationId"], name, refferal)
+bearer = api.register(verification["verificationId"], name, refferal)
 
 print("Bearer: "+bearer["accessToken"])

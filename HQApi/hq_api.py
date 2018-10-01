@@ -16,7 +16,10 @@ class BaseHQApi:
         return self.fetch("GET", "users/me")
 
     def get_user(self, id):
-        return self.fetch("GET", "users/"+str(id))
+        return self.fetch("GET", "users/{}".format(str(id)))
+
+    def search(self, name):
+        return self.fetch("GET", 'users?q={}'.format(name))
 
     def get_payouts_me(self):
         return self.fetch("GET", "users/me/payouts")
@@ -34,14 +37,35 @@ class BaseHQApi:
         return self.fetch("POST", "verifications", {"method": method, "phone": phone})
 
     def confirm_code(self, verificationid, code):
-        return self.fetch("POST", "verifications/"+verificationid, {"code": code})
+        return self.fetch("POST", "verifications/{}".format(verificationid), {"code": code})
 
-    def login(self, verificationid, name, refferal):
+    def register(self, verificationid, name, refferal):
         return self.fetch("POST", "users", {
             "country": base64.b64encode(str(self.region).encode()).decode(), "language": "eu",
             "referringUsername": refferal,
             "username": name,
             "verificationId": verificationid})
+
+    def aws_credentials(self):
+        return self.fetch("GET", "credentials/s3")
+
+    def delete_avatar(self):
+        return self.fetch("DELETE", "users/me/avatarUrl")
+
+    def add_friend(self, id):
+        return self.fetch("POST", "friends/{}/requests".format(str(id)))
+
+    def friend_status(self, id):
+        return self.fetch("GET", "friends/{}/status".format(str(id)))
+
+    def remove_friend(self, id):
+        return self.fetch("DELETE", "friends/{}".format(str(id)))
+
+    def accept_friend(self, id):
+        return self.fetch("PUT", "friends/{user_id}/status".format(str(id)), {"status": "ACCEPTED"})
+
+    def check_username(self, name):
+        return self.fetch("POST", "usernames/available", {"username": name})
 
     def custom(self, method, func, data):
         return self.fetch(method, func, data)
@@ -64,6 +88,8 @@ class HQApi(BaseHQApi):
             content = self.session.post("https://api-quiz.hype.space/{}".format(func), data=data).json()
         elif method == "PATCH":
             content = self.session.patch("https://api-quiz.hype.space/{}".format(func), data=data).json()
+        elif method == "DELETE":
+            content = self.session.delete("https://api-quiz.hype.space/{}".format(func), data=data).json()
         else:
             content = self.session.get("https://api-quiz.hype.space/{}".format(func), data=data).json()
         error = content.get("error")
