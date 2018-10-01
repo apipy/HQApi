@@ -25,7 +25,7 @@ api = HQApi(bearer)
 print(str(api.get_show()))
 ```
 
-## Methods
+## HQApi Methods
 | Method             | Description                                       |
 |--------------------|---------------------------------------------------|
 | `get_users_me`     | Information about your account                    |
@@ -45,6 +45,14 @@ print(str(api.get_show()))
 | `accept_friend`    | Accept friend                                     |
 | `check_username`   | Check username availability                       |
 | `custom`           | Custom request                                    |
+
+## HQWebsocket Methods
+| Method             | Description        |
+|--------------------|--------------------|
+| `join`             | Return websocket   |
+| `send_json`        | Send custom json   |
+| `send_answer`      | Send answer        |
+| `send_life`        | Send life          |
 
 ## Regions
 | Region | Description           |

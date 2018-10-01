@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="HQApi",
-    version="1.0.4",
+    version="1.1.0",
     author="Katant",
     author_email="katant.savelev@yandex.ru",
     description="HQ Trivia API",
