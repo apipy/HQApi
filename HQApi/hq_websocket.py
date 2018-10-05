@@ -22,10 +22,12 @@ class HQWebSocket:
         self.ws = WebSocket(self.socket)
         for header, value in self.headers.items():
             self.ws.add_header(str.encode(header), str.encode(value))
-        for msg in self.ws.connect():
+        for _ in self.ws.connect():
             self.success = 1
 
-    def send_json(self, json={}):
+    def send_json(self, json=None):
+        if json is None:
+            json = {}
         for msg in self.ws.connect():
             if msg.name == "text":
                 self.ws.send_json(json)
@@ -35,16 +37,16 @@ class HQWebSocket:
         for msg in self.ws.connect():
             if msg.name == "text":
                 self.ws.send_json({"questionId": str(questionid), "authToken": str(self.authtoken),
-                              "broadcastId": str(self.broadcastid),
-                              "type": "useExtraLife"})
+                                   "broadcastId": str(self.broadcastid),
+                                   "type": "useExtraLife"})
                 self.ws.close()
 
     def send_answer(self, answerid, questionid):
         for msg in self.ws.connect():
             if msg.name == "text":
                 self.ws.send_json({"answerId": str(answerid),
-                              "questionId": str(questionid), "authToken": str(self.authtoken),
-                              "broadcastId": str(str(self.broadcastid)), "type": "answer"})
+                                   "questionId": str(questionid), "authToken": str(self.authtoken),
+                                   "broadcastId": str(str(self.broadcastid)), "type": "answer"})
                 self.ws.close()
 
     def join(self):

@@ -15,7 +15,9 @@ class BaseHQApi:
     def country(self):
         return self.region
 
-    def fetch(self, method="GET", func="", data={}):
+    def fetch(self, method="GET", func="", data=None):
+        if data is None:
+            data = {}
         return method, func, data
 
     def get_users_me(self):
@@ -88,7 +90,9 @@ class HQApi(BaseHQApi):
             "x-hq-client": "Android/1.20.1",
             "Authorization": "Bearer " + self.authToken})
 
-    def fetch(self, method="GET", func="", data={}):
+    def fetch(self, method="GET", func="", data=None):
+        if data is None:
+            data = {}
         if method == "GET":
             content = self.session.get("https://api-quiz.hype.space/{}".format(func), data=data).json()
         elif method == "POST":
@@ -112,7 +116,9 @@ class AsyncHQApi(BaseHQApi):
         self.region = region
         self.connector = connector
 
-    async def fetch(self, method="GET", func="", data={}):
+    async def fetch(self, method="GET", func="", data=None):
+        if data is None:
+            data = {}
         if method == "GET":
             async with self.connector.session.get("https://api-quiz.hype.space/{}".format(func),
                                                   data=data) as response:
