@@ -5,7 +5,7 @@ from HQApi import HQApi, HQWebSocket
 bearer = "Bearer"
 api = HQApi(bearer)
 ws = HQWebSocket(api)
-wss = ws.join()
+wss = ws.get()
 
 for msg in wss.connect():
     if msg.name == "text":
