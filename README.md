@@ -49,7 +49,7 @@ print(str(api.get_show()))
 ## HQWebsocket Methods
 | Method             | Description        |
 |--------------------|--------------------|
-| `join`             | Return Websocket   |
+| `get`              | Return Websocket   |
 | `close`            | Close Websocket    |
 | `send_json`        | Send custom json   |
 | `send_answer`      | Send answer        |

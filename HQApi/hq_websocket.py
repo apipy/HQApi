@@ -40,7 +40,7 @@ class HQWebSocket:
                         "questionId": str(questionid), "authToken": str(self.authtoken),
                         "broadcastId": str(str(self.broadcast)), "type": "answer"})
 
-    def join(self):
+    def get(self):
         return self.ws
 
     def close(self):
