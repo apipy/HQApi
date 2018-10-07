@@ -2,7 +2,7 @@ import requests
 
 
 class CheckVersion:
-    version = 1.20
+    version = 1.21
     try:
         v = requests.get("https://raw.githubusercontent.com/katant/HQApi/master/version").text
         v = float(v)
