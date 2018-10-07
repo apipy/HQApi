@@ -42,3 +42,6 @@ class HQWebSocket:
 
     def join(self):
         return self.ws
+
+    def close(self):
+        self.ws.close()
