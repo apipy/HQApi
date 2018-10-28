@@ -11,7 +11,11 @@ api.confirm_code(verification["verificationId"], str(code))
 
 name = str(input("Name... "))
 refferal = str(input("Refferal... "))
-
-bearer = api.register(verification["verificationId"], name, refferal)
-
+while True:
+    try:
+        bearer = api.register(verification["verificationId"], name, refferal)
+        break
+    except:
+        print("Too long")
+        pass
 print("Bearer: "+bearer["accessToken"])
