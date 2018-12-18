@@ -62,3 +62,9 @@ print(str(api.get_show()))
 | `2`    | UK, Great Britain     |
 | `3`    | DE, Germany           |
 | `4`    | AU, Australia         |
+
+## Headers
+| Headers | Description           |
+|---------|-----------------------|
+| `1`     | Android headers       |
+| `2`     | iOS headers           |

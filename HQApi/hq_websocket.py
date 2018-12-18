@@ -1,13 +1,15 @@
 import base64
+
 from lomond import WebSocket
+
 from HQApi import HQApi
 
 
 class HQWebSocket:
     def __init__(self, api: HQApi):
         self.api = api
-        self.authtoken = HQApi.bearer(api)
-        self.region = HQApi.country(api)
+        self.authtoken = HQApi.api(api).authtoken
+        self.region = HQApi.api(api).region
         self.headers = {
             "x-hq-stk": base64.b64encode(str(self.region).encode()).decode(),
             "x-hq-client": "Android/1.20.1",
