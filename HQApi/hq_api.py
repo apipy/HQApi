@@ -58,7 +58,7 @@ class BaseHQApi:
         return self.fetch("POST", "users/me/payouts", {"email": email})
 
     def send_code(self, phone, method):
-        return self.fetch("POST", "verifications", {"method": method, "phone": phone})
+        return self.fetch("POST", "verifications", {"phone": phone, "method": method})
 
     def confirm_code(self, verificationid, code):
         return self.fetch("POST", "verifications/{}".format(verificationid), {"code": code})
