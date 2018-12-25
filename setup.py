@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="HQApi",
-    version="1.3.1",
+    version="1.4.0",
     author="Katant",
     author_email="katant.savelev@yandex.ru",
     description="HQ Trivia API",
@@ -15,7 +15,7 @@ setuptools.setup(
     install_requires=['requests', 'lomond', 'aiohttp'],
     python_requires='>=3',
     classifiers=[
-        "Programming Language :: Python :: 3.6",
+        "Programming Language :: Python :: 3.7",
         "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
         "Operating System :: OS Independent",
     ],

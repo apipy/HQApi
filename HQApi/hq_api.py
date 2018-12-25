@@ -3,7 +3,7 @@ import json
 
 import requests
 
-from HQApi.exceptions import ApiResponseError
+from HQApi.exceptions import ApiResponseError, BannedIPError
 
 
 class BaseHQApi:
@@ -108,20 +108,23 @@ class HQApi(BaseHQApi):
     def fetch(self, method="GET", func="", data=None):
         if data is None:
             data = {}
-        if method == "GET":
-            content = self.session.get("https://api-quiz.hype.space/{}".format(func), data=data).json()
-        elif method == "POST":
-            content = self.session.post("https://api-quiz.hype.space/{}".format(func), data=data).json()
-        elif method == "PATCH":
-            content = self.session.patch("https://api-quiz.hype.space/{}".format(func), data=data).json()
-        elif method == "DELETE":
-            content = self.session.delete("https://api-quiz.hype.space/{}".format(func), data=data).json()
-        else:
-            content = self.session.get("https://api-quiz.hype.space/{}".format(func), data=data).json()
-        error = content.get("error")
-        if error:
-            raise ApiResponseError(json.dumps(content))
-        return content
+        try:
+            if method == "GET":
+                content = self.session.get("https://api-quiz.hype.space/{}".format(func), data=data).json()
+            elif method == "POST":
+                content = self.session.post("https://api-quiz.hype.space/{}".format(func), data=data).json()
+            elif method == "PATCH":
+                content = self.session.patch("https://api-quiz.hype.space/{}".format(func), data=data).json()
+            elif method == "DELETE":
+                content = self.session.delete("https://api-quiz.hype.space/{}".format(func), data=data).json()
+            else:
+                content = self.session.get("https://api-quiz.hype.space/{}".format(func), data=data).json()
+            error = content.get("error")
+            if error:
+                raise ApiResponseError(json.dumps(content))
+            return content
+        except json.decoder.JSONDecodeError:
+            raise BannedIPError("Your IP is banned")
 
 
 class AsyncHQApi(BaseHQApi):
