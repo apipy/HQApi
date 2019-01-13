@@ -72,7 +72,7 @@ print(str(api.get_show()))
 | `1`     | Android headers       |
 | `2`     | iOS headers           |
 
-##Examples
+## Examples
 | Example             | Description                                                                                    |
 |---------------------|------------------------------------------------------------------------------------------------|
 | `get_show.py`       | [Get next show](https://github.com/katant/HQApi/blob/master/examples/get_show.py)              |
