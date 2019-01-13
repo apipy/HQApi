@@ -26,7 +26,7 @@ class BaseHQApi:
                 "x-hq-stk": base64.b64encode(str(self.region).encode()).decode(),
                 'x-hq-device': 'iPhone9,4',
                 'x-hq-client': 'iOS/{} b110'.format(self.version),
-                'User-Agent': 'HQ-iOS/110 CFNetwork/974.2.1 Darwin/18.0.0'}
+                'User-Agent': 'HQ-iOS/120 CFNetwork/974.2.1 Darwin/18.0.0'}
 
     def api(self):
         return self

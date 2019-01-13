@@ -1,8 +1,8 @@
 # HQApi
-HQ Trivia API, written in Python
+HQ Trivia & Words API, written in Python
 
 ## Installation
-1. Install from pip:
+1. Install from pip (may be outdated):
 ```bash
 pip3 install HQApi
 ```
@@ -49,22 +49,34 @@ print(str(api.get_show()))
 ## HQWebsocket Methods
 | Method             | Description        |
 |--------------------|--------------------|
-| `get`              | Return Websocket   |
-| `close`            | Close Websocket    |
+| `get`              | Return websocket   |
+| `close`            | Close websocket    |
 | `send_json`        | Send custom json   |
 | `send_answer`      | Send answer        |
 | `send_life`        | Send life          |
+| `send_comment`     | Send comment       |
+| `send_letter`      | Send letter        |
+| `send_wheel`       | Send wheel letter  |
 
 ## Regions
 | Region | Description           |
 |--------|-----------------------|
 | `1`    | US, United States     |
-| `2`    | UK, Great Britain     |
-| `3`    | DE, Germany           |
-| `4`    | AU, Australia         |
+| `2`    | ~~UK, Great Britain~~ |
+| `3`    | ~~DE, Germany~~       |
+| `4`    | ~~AU, Australia~~     |
 
 ## Headers
 | Headers | Description           |
 |---------|-----------------------|
 | `1`     | Android headers       |
 | `2`     | iOS headers           |
+
+##Examples
+
+| Example             | Description                                                                                    |
+|---------------------|------------------------------------------------------------------------------------------------|
+| `get_show.py`       | [Get next show](https://github.com/katant/HQApi/blob/master/examples/get_show.py)              |
+| `life_bot.py`       | [Life bot to generate lifes](https://github.com/katant/HQApi/blob/master/examples/life_bot.py) |
+| `register_login.py` | [Login or register](https://github.com/katant/HQApi/blob/master/examples/register_login.py)    |
+| `websocket.py`      | [Work with websocket](https://github.com/katant/HQApi/blob/master/examples/websocket.py)       |
