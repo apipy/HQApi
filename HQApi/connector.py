@@ -4,11 +4,10 @@ import aiohttp
 
 
 class Connector:
-    def __init__(self, authtoken, region, version):
+    def __init__(self, authtoken, region):
         self.session = None
         self.authToken = authtoken
         self.region = region
-        self.version = version
 
     async def __aenter__(self):
         headers = {"x-hq-stk": base64.b64encode(str(self.region).encode()).decode(),
