@@ -12,7 +12,7 @@ class HQWebSocket:
         self.region = HQApi.api(api).region
         self.headers = {
             "x-hq-stk": base64.b64encode(str(self.region).encode()).decode(),
-            "x-hq-client": "Android/1.20.1",
+            "x-hq-client": "Android/1.26.2",
             "Authorization": "Bearer " + self.authtoken}
         if HQApi.get_show(api)["active"]:
             self.socket = HQApi.get_show(api)["broadcast"]["socketUrl"].replace("https", "wss")
@@ -33,14 +33,31 @@ class HQWebSocket:
         self.ws.send_json(json)
 
     def send_life(self, questionid):
-        self.send_json({"questionId": str(questionid), "authToken": str(self.authtoken),
+        self.send_json({"questionId": str(questionid), "authToken": self.authtoken,
                         "broadcastId": str(self.broadcast),
                         "type": "useExtraLife"})
 
     def send_answer(self, answerid, questionid):
         self.send_json({"answerId": str(answerid),
-                        "questionId": str(questionid), "authToken": str(self.authtoken),
+                        "questionId": str(questionid), "authToken": self.authtoken,
                         "broadcastId": str(str(self.broadcast)), "type": "answer"})
+
+    def send_comment(self, avatarUrl, message, userId, username):
+        self.send_json({"metadata": {"avatarUrl": avatarUrl,
+                                     "interaction": "chat", "message": message, "userId": str(userId),
+                                     "username": username}, "itemId": "chat",
+                        "authToken": self.authtoken,
+                        "broadcastId": str(self.broadcast), "type": "interaction"})
+
+    def send_wheel(self, showId, letter):
+        self.send_json({"type": "spin", "authToken": self.authtoken,
+                        "showId": str(showId), "broadcastId": self.broadcast,
+                        "letter": letter})
+
+    def send_letter(self, showId, letter, roundId):
+        self.send_json({"type": "guess", "authToken": self.authtoken, "showId": str(showId),
+                        "broadcastId": self.broadcast, "letter": letter,
+                        "roundId": str(roundId)})
 
     def get(self):
         return self.ws

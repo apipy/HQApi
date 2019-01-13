@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="HQApi",
-    version="1.4.0",
+    version="1.5.0",
     author="Katant",
     author_email="katant.savelev@yandex.ru",
     description="HQ Trivia API",
@@ -13,6 +13,7 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     url="https://github.com/katant/HQApi",
     install_requires=['requests', 'lomond', 'aiohttp'],
+    packages=["HQApi"],
     python_requires='>=3',
     classifiers=[
         "Programming Language :: Python :: 3.7",
