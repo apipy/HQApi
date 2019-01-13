@@ -73,7 +73,6 @@ print(str(api.get_show()))
 | `2`     | iOS headers           |
 
 ##Examples
-
 | Example             | Description                                                                                    |
 |---------------------|------------------------------------------------------------------------------------------------|
 | `get_show.py`       | [Get next show](https://github.com/katant/HQApi/blob/master/examples/get_show.py)              |
