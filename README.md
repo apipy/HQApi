@@ -58,20 +58,6 @@ print(str(api.get_show()))
 | `send_letter`      | Send letter        |
 | `send_wheel`       | Send wheel letter  |
 
-## Regions
-| Region | Description           |
-|--------|-----------------------|
-| `1`    | US, United States     |
-| `2`    | ~~UK, Great Britain~~ |
-| `3`    | ~~DE, Germany~~       |
-| `4`    | ~~AU, Australia~~     |
-
-## Headers
-| Headers | Description           |
-|---------|-----------------------|
-| `1`     | Android headers       |
-| `2`     | iOS headers           |
-
 ## Examples
 | Example             | Description                                                                                    |
 |---------------------|------------------------------------------------------------------------------------------------|
