@@ -32,14 +32,14 @@ class HQWebSocket:
             json = {}
         self.ws.send_json(json)
 
-    def send_life(self, questionid):
-        self.send_json({"questionId": str(questionid), "authToken": self.authtoken,
+    def send_life(self, questionId):
+        self.send_json({"questionId": str(questionId), "authToken": self.authtoken,
                         "broadcastId": str(self.broadcast),
                         "type": "useExtraLife"})
 
-    def send_answer(self, answerid, questionid):
-        self.send_json({"answerId": str(answerid),
-                        "questionId": str(questionid), "authToken": self.authtoken,
+    def send_answer(self, answerId, questionId):
+        self.send_json({"answerId": str(answerId),
+                        "questionId": str(questionId), "authToken": self.authtoken,
                         "broadcastId": str(str(self.broadcast)), "type": "answer"})
 
     def send_comment(self, avatarUrl, message, userId, username):
@@ -58,6 +58,18 @@ class HQWebSocket:
         self.send_json({"type": "guess", "authToken": self.authtoken, "showId": str(showId),
                         "broadcastId": self.broadcast, "letter": letter,
                         "roundId": str(roundId)})
+
+    def get_erasers(self, friendsIds):
+        self.send_json({"authToken": self.authtoken,
+                        "friendsIds": friendsIds,
+                        "broadcastId": self.broadcast,
+                        "type": "erase1Earned"})
+
+    def send_eraser(self, questionId):
+        self.send_json({"type": "erase1",
+                        "questionId": questionId,
+                        "authToken": self.authtoken,
+                        "broadcastId": self.broadcast})
 
     def get(self):
         return self.ws
