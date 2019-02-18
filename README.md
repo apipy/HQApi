@@ -57,6 +57,8 @@ print(str(api.get_show()))
 | `send_comment`     | Send comment       |
 | `send_letter`      | Send letter        |
 | `send_wheel`       | Send wheel letter  |
+| `get_erasers`      | Get erasers        |
+| `send_eraser`      | Send eraser        |
 
 ## Examples
 | Example             | Description                                                                                    |
