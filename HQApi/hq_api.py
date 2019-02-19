@@ -42,7 +42,7 @@ class BaseHQApi:
 
     def register(self, verificationid, name, refferal):
         return self.fetch("POST", "users", {
-            "country": base64.b64encode(str(self.region).encode()).decode(), "language": "eu",
+            "country": "MQ==", "language": "eu",
             "referringUsername": refferal,
             "username": name,
             "verificationId": verificationid})
