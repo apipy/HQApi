@@ -9,9 +9,7 @@ class HQWebSocket:
     def __init__(self, api: HQApi):
         self.api = api
         self.authtoken = HQApi.api(api).authtoken
-        self.region = HQApi.api(api).region
         self.headers = {
-            "x-hq-stk": base64.b64encode(str(self.region).encode()).decode(),
             "x-hq-client": "Android/1.26.2",
             "Authorization": "Bearer " + self.authtoken}
         if HQApi.get_show(api)["active"]:
