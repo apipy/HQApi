@@ -1,24 +1,26 @@
-import base64
-
 from lomond import WebSocket
 
 from HQApi import HQApi
+from HQApi.exceptions import NotLive
 
 
 class HQWebSocket:
-    def __init__(self, api: HQApi):
+    def __init__(self, api: HQApi, demo: bool = False):
         self.api = api
-        self.authtoken = HQApi.api(api).authtoken
+        self.authtoken = self.api.authtoken
+        self.version = self.api.version
         self.headers = {
-            "x-hq-client": "Android/1.26.2",
+            "x-hq-client": "Android/" + self.api.version,
             "Authorization": "Bearer " + self.authtoken}
         if HQApi.get_show(api)["active"]:
             self.socket = HQApi.get_show(api)["broadcast"]["socketUrl"].replace("https", "wss")
             self.broadcast = HQApi.get_show(api)['broadcast']['broadcastId']
-        else:
+        elif demo:
             print("Using demo websocket!")
             self.socket = "ws://hqecho.herokuapp.com"  # Websocket with questions 24/7
             self.broadcast = 1
+        else:
+            raise NotLive("Show isn't live and demo mode is disabled")
         self.ws = WebSocket(self.socket)
         for header, value in self.headers.items():
             self.ws.add_header(str.encode(header), str.encode(value))
@@ -31,31 +33,31 @@ class HQWebSocket:
         self.ws.send_json(json)
 
     def send_life(self, questionId):
-        self.send_json({"questionId": str(questionId), "authToken": self.authtoken,
-                        "broadcastId": str(self.broadcast),
+        self.send_json({"questionId": questionId, "authToken": self.authtoken,
+                        "broadcastId": self.broadcast,
                         "type": "useExtraLife"})
 
     def send_answer(self, answerId, questionId):
-        self.send_json({"answerId": str(answerId),
-                        "questionId": str(questionId), "authToken": self.authtoken,
-                        "broadcastId": str(str(self.broadcast)), "type": "answer"})
+        self.send_json({"answerId": answerId,
+                        "questionId": questionId, "authToken": self.authtoken,
+                        "broadcastId": self.broadcast, "type": "answer"})
 
     def send_comment(self, avatarUrl, message, userId, username):
         self.send_json({"metadata": {"avatarUrl": avatarUrl,
-                                     "interaction": "chat", "message": message, "userId": str(userId),
+                                     "interaction": "chat", "message": message, "userId": userId,
                                      "username": username}, "itemId": "chat",
                         "authToken": self.authtoken,
-                        "broadcastId": str(self.broadcast), "type": "interaction"})
+                        "broadcastId": self.broadcast, "type": "interaction"})
 
     def send_wheel(self, showId, letter):
         self.send_json({"type": "spin", "authToken": self.authtoken,
-                        "showId": str(showId), "broadcastId": self.broadcast,
+                        "showId": showId, "broadcastId": self.broadcast,
                         "letter": letter})
 
     def send_letter(self, showId, letter, roundId):
-        self.send_json({"type": "guess", "authToken": self.authtoken, "showId": str(showId),
+        self.send_json({"type": "guess", "authToken": self.authtoken, "showId": showId,
                         "broadcastId": self.broadcast, "letter": letter,
-                        "roundId": str(roundId)})
+                        "roundId": roundId})
 
     def get_erasers(self, friendsIds):
         self.send_json({"authToken": self.authtoken,

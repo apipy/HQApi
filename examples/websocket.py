@@ -7,7 +7,7 @@ from HQApi import HQApi, HQWebSocket
 
 bearer = "Bearer"
 api = HQApi(bearer)
-ws = HQWebSocket(api)
+ws = HQWebSocket(api, True)
 websocket = ws.get()
 
 for msg in persist(websocket.connect):

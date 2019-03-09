@@ -14,5 +14,4 @@ for bearer in bearers:
         if msg.name == "text":
             data = json.loads(re.sub(r"[\x00-\x1f\x7f-\x9f]", "", msg.text))
             if data["type"] != "interaction":
-                print(str(data))
                 ws.close()
