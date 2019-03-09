@@ -8,3 +8,7 @@ class BannedIPError(Exception):
 
 class NotLive(Exception):
     pass
+
+
+class WebSocketNotAvailable(Exception):
+    pass

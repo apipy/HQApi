@@ -1,0 +1,45 @@
+language: python
+matrix:
+  include:
+  - os: linux
+    sudo: required
+    python: 3.3
+    dist: trusty
+  - os: linux
+    sudo: required
+    python: 3.4
+    dist: trusty
+  - os: linux
+    sudo: required
+    python: 3.5
+    dist: trusty
+  - os: linux
+    sudo: required
+    python: 3.6
+    dist: trusty
+  - os: linux
+    sudo: required
+    python: 3.7
+    dist: trusty
+  - os: osx
+    language: generic
+    before_install:
+    - travis_wait brew update
+    - pip install virtualenv
+    - virtualenv env -p python3
+    - source env/bin/activate
+    - alias pip="pip3"
+  - os: osx
+    language: generic
+    before_install:
+    - travis_wait brew update
+    - brew upgrade python
+    - pip install virtualenv
+    - virtualenv env -p python3
+    - source env/bin/activate
+    - alias pip="pip3"
+
+install:
+  - "python3 setup.py install"
+script:
+  - "python3 examples/get_show.py"
