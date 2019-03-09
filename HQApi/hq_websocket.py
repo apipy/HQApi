@@ -1,7 +1,7 @@
 from lomond import WebSocket
 
 from HQApi import HQApi
-from HQApi.exceptions import NotLive
+from HQApi.exceptions import NotLive, WebSocketNotAvailable
 
 
 class HQWebSocket:
@@ -9,23 +9,26 @@ class HQWebSocket:
         self.api = api
         self.authtoken = self.api.authtoken
         self.version = self.api.version
-        self.headers = {
-            "x-hq-client": "Android/" + self.api.version,
-            "Authorization": "Bearer " + self.authtoken}
-        if HQApi.get_show(api)["active"]:
-            self.socket = HQApi.get_show(api)["broadcast"]["socketUrl"].replace("https", "wss")
-            self.broadcast = HQApi.get_show(api)['broadcast']['broadcastId']
-        elif demo:
-            print("Using demo websocket!")
-            self.socket = "ws://hqecho.herokuapp.com"  # Websocket with questions 24/7
-            self.broadcast = 1
+        if self.authtoken != "":
+            self.headers = {
+                "x-hq-client": "Android/" + self.api.version,
+                "Authorization": "Bearer " + self.authtoken}
+            if HQApi.get_show(api)["active"]:
+                self.socket = HQApi.get_show(api)["broadcast"]["socketUrl"].replace("https", "wss")
+                self.broadcast = HQApi.get_show(api)['broadcast']['broadcastId']
+            elif demo:
+                print("Using demo websocket!")
+                self.socket = "ws://hqecho.herokuapp.com"  # Websocket with questions 24/7
+                self.broadcast = 1
+            else:
+                raise NotLive("Show isn't live and demo mode is disabled")
+            self.ws = WebSocket(self.socket)
+            for header, value in self.headers.items():
+                self.ws.add_header(str.encode(header), str.encode(value))
+            for _ in self.ws.connect():
+                self.success = 1
         else:
-            raise NotLive("Show isn't live and demo mode is disabled")
-        self.ws = WebSocket(self.socket)
-        for header, value in self.headers.items():
-            self.ws.add_header(str.encode(header), str.encode(value))
-        for _ in self.ws.connect():
-            self.success = 1
+            raise WebSocketNotAvailable("You can't use websocket without bearer")
 
     def send_json(self, json=None):
         if json is None:
