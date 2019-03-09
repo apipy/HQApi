@@ -1,6 +1,4 @@
-import base64
 import json
-
 import requests
 
 from HQApi.exceptions import ApiResponseError, BannedIPError
@@ -73,14 +71,13 @@ class BaseHQApi:
 
 
 class HQApi(BaseHQApi):
-    def __init__(self, authtoken):
+    def __init__(self, authtoken: str = "", version: str = "1.30.0"):
         super().__init__(authtoken)
         self.authToken = authtoken
-        # self.version = requests.get("https://www.apkmirror.com/apk/intermedia-labs/hq-trivia/").text.split(
-        #     '-release/">HQ Trivia ')[1].split('</a>')[0]  # Fetch lastest version
+        self.version = version
         self.headers = {
             "Authorization": "Bearer " + self.authtoken,
-            "x-hq-client": "Android/1.26.2"}
+            "x-hq-client": "Android/" + self.version}
 
     def fetch(self, method="GET", func="", data=None):
         if data is None:

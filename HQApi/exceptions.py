@@ -4,3 +4,7 @@ class ApiResponseError(Exception):
 
 class BannedIPError(Exception):
     pass
+
+
+class NotLive(Exception):
+    pass

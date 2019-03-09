@@ -1,6 +1,6 @@
 from HQApi import HQApi
 
-api = HQApi("")
+api = HQApi()
 
 phone = int(input("Phone... "))
 verification = api.send_code("+" + str(phone), "sms")
@@ -18,4 +18,4 @@ while True:
     except:
         print("Too long")
         pass
-print("Bearer: "+bearer["accessToken"])
+print("Bearer: " + bearer["accessToken"])

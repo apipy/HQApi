@@ -1,6 +1,5 @@
 from HQApi import HQApi
 
-bearer = "Bearer"
-api = HQApi(bearer)
+api = HQApi()
 
-print(str(api.get_show()))
+print(api.get_show())
