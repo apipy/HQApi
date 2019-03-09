@@ -20,7 +20,7 @@ matrix:
   - os: linux
     sudo: required
     python: 3.7
-    dist: trusty
+    dist: xenial
   - os: osx
     language: generic
     before_install:
