@@ -20,7 +20,7 @@ matrix:
   - os: linux
     sudo: required
     python: 3.7
-    dist: trusty
+    dist: xenial
   - os: osx
     language: generic
     before_install:
@@ -42,6 +42,4 @@ matrix:
 install:
   - "python3 setup.py install"
 script:
-  - "python3 tests/get_show_no_token.py"
-  - "python3 tests/get_users_me_token.py"
-  - "python3 tests/websocket_demo.py"
+  - "python3 examples/get_show.py"
