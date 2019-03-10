@@ -27,6 +27,12 @@ class HQWebSocket:
                 self.ws.add_header(str.encode(header), str.encode(value))
             for _ in self.ws.connect():
                 self.success = 1
+        elif demo:
+            print("Using demo websocket!")
+            self.socket = "ws://hqecho.herokuapp.com"  # Websocket with questions 24/7
+            self.broadcast = 1
+            self.ws = WebSocket(self.socket)
+            self.ws.connect()
         else:
             raise WebSocketNotAvailable("You can't use websocket without bearer")
 

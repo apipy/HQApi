@@ -77,10 +77,10 @@ class HQApi(BaseHQApi):
         self.version = version
         if authtoken == "":
             self.headers = {
-                "Authorization": "Bearer " + self.authtoken,
                 "x-hq-client": "Android/" + self.version}
         else:
             self.headers = {
+                "Authorization": "Bearer " + self.authtoken,
                 "x-hq-client": "Android/" + self.version}
 
     def fetch(self, method="GET", func="", data=None):
