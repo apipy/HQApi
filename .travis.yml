@@ -46,26 +46,31 @@ matrix:
     language: shell
     before_install:
     - choco install python --version 3.4.4.20180111
+    - refreshenv
     - DOSKEY python3=py
   - os: windows
     language: shell
     before_install:
     - choco install python --version 3.5.4
+    - refreshenv
     - DOSKEY python3=py
   - os: windows
     language: shell
     before_install:
     - choco install python --version 3.6.8
+    - refreshenv
     - DOSKEY python3=py
   - os: windows
     language: shell
     before_install:
     - choco install python
+    - refreshenv
     - DOSKEY python3=py
   - os: windows
     language: shell
     before_install:
     - choco install python --pre
+    - refreshenv
     - DOSKEY python3=py
 install:
   - "python3 -m pip install --upgrade pip setuptools"
