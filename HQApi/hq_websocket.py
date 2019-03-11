@@ -5,7 +5,7 @@ from HQApi.exceptions import NotLive, WebSocketNotAvailable
 
 
 class HQWebSocket:
-    def __init__(self, api: HQApi, demo: bool = False):
+    def __init__(self, api: HQApi, demo: bool = False, proxy: str = None):
         self.api = api
         self.authtoken = self.api.authtoken
         self.version = self.api.version
@@ -13,15 +13,23 @@ class HQWebSocket:
             self.headers = {
                 "x-hq-client": "Android/" + self.api.version,
                 "Authorization": "Bearer " + self.authtoken}
-            if HQApi.get_show(api)["active"]:
-                self.socket = HQApi.get_show(api)["broadcast"]["socketUrl"].replace("https", "wss")
-                self.broadcast = HQApi.get_show(api)['broadcast']['broadcastId']
-            elif demo:
-                print("Using demo websocket!")
-                self.socket = "ws://hqecho.herokuapp.com"  # Websocket with questions 24/7
-                self.broadcast = 1
-            else:
-                raise NotLive("Show isn't live and demo mode is disabled")
+            try:
+                if HQApi.get_show(api)["active"]:
+                    self.socket = HQApi.get_show(api)["broadcast"]["socketUrl"].replace("https", "wss")
+                    self.broadcast = HQApi.get_show(api)['broadcast']['broadcastId']
+                elif demo:
+                    print("Using demo websocket!")
+                    self.socket = "wss://hqecho.herokuapp.com"  # Websocket with questions 24/7
+                    self.broadcast = 1
+                else:
+                    raise NotLive("Show isn't live and demo mode is disabled")
+            except HQApi.exceptions.BannedIPError:
+                if demo:
+                    print("Using demo websocket!")
+                    self.socket = "wss://hqecho.herokuapp.com"  # Websocket with questions 24/7
+                    self.broadcast = 1
+                else:
+                    raise WebSocketNotAvailable("You can't use websocket with banned IP")
             self.ws = WebSocket(self.socket)
             for header, value in self.headers.items():
                 self.ws.add_header(str.encode(header), str.encode(value))
@@ -29,7 +37,7 @@ class HQWebSocket:
                 self.success = 1
         elif demo:
             print("Using demo websocket!")
-            self.socket = "ws://hqecho.herokuapp.com"  # Websocket with questions 24/7
+            self.socket = "wss://hqecho.herokuapp.com"  # Websocket with questions 24/7
             self.broadcast = 1
             self.ws = WebSocket(self.socket)
             self.ws.connect()

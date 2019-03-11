@@ -3,6 +3,18 @@ matrix:
   include:
   - os: linux
     sudo: required
+    python: 3.0
+    dist: trusty
+  - os: linux
+    sudo: required
+    python: 3.1
+    dist: trusty
+  - os: linux
+    sudo: required
+    python: 3.2
+    dist: trusty
+  - os: linux
+    sudo: required
     python: 3.3
     dist: trusty
   - os: linux
@@ -38,10 +50,56 @@ matrix:
     - virtualenv env -p python3
     - source env/bin/activate
     - alias pip="pip3"
-
+  - os: windows
+    language: generic
+    before_install:
+    - DOSKEY python3=py
+    - choco install python --version 3.0.1
+  - os: windows
+    language: generic
+    before_install:
+    - DOSKEY python3=py
+    - choco install python --version 3.1.4
+  - os: windows
+    language: generic
+    before_install:
+    - DOSKEY python3=py
+    - choco install python --version 3.2.5
+  - os: windows
+    language: generic
+    before_install:
+    - DOSKEY python3=py
+    - choco install python --version 3.3.5
+  - os: windows
+    language: generic
+    before_install:
+    - DOSKEY python3=py
+    - choco install python --version 3.4.4.20180111
+  - os: windows
+    language: generic
+    before_install:
+    - DOSKEY python3=py
+    - choco install python --version 3.5.4
+  - os: windows
+    language: generic
+    before_install:
+    - DOSKEY python3=py
+    - choco install python --version 3.6.8
+  - os: windows
+    language: generic
+    before_install:
+    - DOSKEY python3=py
+    - choco install python
+  - os: windows
+    language: generic
+    before_install:
+    - DOSKEY python3=py
+    - choco install python --pre
 install:
   - "python3 setup.py install"
 script:
   - "python3 tests/get_show_no_token.py"
+  - "python3 tests/get_show_proxy.py"
   - "python3 tests/get_users_me_token.py"
   - "python3 tests/websocket_demo.py"
+  - "python3 tests/websocket_proxy.py"
