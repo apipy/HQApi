@@ -1,6 +1,36 @@
 language: python
 matrix:
   include:
+  - os: windows
+    language: shell
+    before_install:
+    - choco install python --version 3.4.4.20180111
+    - choco refreshenv
+    - DOSKEY python3=py
+  - os: windows
+    language: shell
+    before_install:
+    - choco install python --version 3.5.4
+    -  chocorefreshenv
+    - DOSKEY python3=py
+  - os: windows
+    language: shell
+    before_install:
+    - choco install python --version 3.6.8
+    - choco refreshenv
+    - DOSKEY python3=py
+  - os: windows
+    language: shell
+    before_install:
+    - choco install python
+    - choco refreshenv
+    - DOSKEY python3=py
+  - os: windows
+    language: shell
+    before_install:
+    - choco install python --pre
+    - choco refreshenv
+    - DOSKEY python3=py
   - os: linux
     sudo: required
     python: 3.4
@@ -42,36 +72,6 @@ matrix:
     - virtualenv env -p python3
     - source env/bin/activate
     - alias pip="pip3"
-  - os: windows
-    language: shell
-    before_install:
-    - choco install python --version 3.4.4.20180111
-    - refreshenv
-    - DOSKEY python3=py
-  - os: windows
-    language: shell
-    before_install:
-    - choco install python --version 3.5.4
-    - refreshenv
-    - DOSKEY python3=py
-  - os: windows
-    language: shell
-    before_install:
-    - choco install python --version 3.6.8
-    - refreshenv
-    - DOSKEY python3=py
-  - os: windows
-    language: shell
-    before_install:
-    - choco install python
-    - refreshenv
-    - DOSKEY python3=py
-  - os: windows
-    language: shell
-    before_install:
-    - choco install python --pre
-    - refreshenv
-    - DOSKEY python3=py
 install:
   - "python3 -m pip install --upgrade pip setuptools"
   - "python3 setup.py install"
