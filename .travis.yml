@@ -94,7 +94,7 @@ matrix:
     - DOSKEY python3=py
     - choco install python --pre
 install:
-  - "python3 -m pip install --upgrade pip bdist_wheels setuptools"
+  - "python3 -m pip install --upgrade pip setuptools"
   - "python3 setup.py install"
 script:
   - "python3 tests/get_show_no_token.py"
