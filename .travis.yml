@@ -5,26 +5,38 @@ matrix:
     sudo: required
     python: 3.2
     dist: trusty
+    before_install:
+      - python3 -m pip list --outdated --format=freeze | grep -v '^\-e' | cut -d = -f 1  | xargs -n1 python3 -m pip install -U
   - os: linux
     sudo: required
     python: 3.3
     dist: trusty
+    before_install:
+      - python3 -m pip list --outdated --format=freeze | grep -v '^\-e' | cut -d = -f 1  | xargs -n1 python3 -m pip install -U
   - os: linux
     sudo: required
     python: 3.4
     dist: trusty
+    before_install:
+      - python3 -m pip list --outdated --format=freeze | grep -v '^\-e' | cut -d = -f 1  | xargs -n1 python3 -m pip install -U
   - os: linux
     sudo: required
     python: 3.5
     dist: trusty
+    before_install:
+      - python3 -m pip list --outdated --format=freeze | grep -v '^\-e' | cut -d = -f 1  | xargs -n1 python3 -m pip install -U
   - os: linux
     sudo: required
     python: 3.6
     dist: trusty
+    before_install:
+      - python3 -m pip list --outdated --format=freeze | grep -v '^\-e' | cut -d = -f 1  | xargs -n1 python3 -m pip install -U
   - os: linux
     sudo: required
     python: 3.7
     dist: xenial
+    before_install:
+      - python3 -m pip list --outdated --format=freeze | grep -v '^\-e' | cut -d = -f 1  | xargs -n1 python3 -m pip install -U
   - os: osx
     language: generic
     before_install:
@@ -47,49 +59,56 @@ matrix:
     before_install:
     - DOSKEY python3=py
     - choco install python --version 3.0.1
+    - for /F "delims===" %i in ('pip list --outdated') do pip install -U %i
   - os: windows
     language: shell
     before_install:
     - DOSKEY python3=py
     - choco install python --version 3.1.4
+    - for /F "delims===" %i in ('pip list --outdated') do pip install -U %i
   - os: windows
     language: shell
     before_install:
     - DOSKEY python3=py
     - choco install python --version 3.2.5
+    - for /F "delims===" %i in ('pip list --outdated') do pip install -U %i
   - os: windows
     language: shell
     before_install:
     - DOSKEY python3=py
     - choco install python --version 3.3.5
+    - for /F "delims===" %i in ('pip list --outdated') do pip install -U %i
   - os: windows
     language: shell
     before_install:
     - DOSKEY python3=py
     - choco install python --version 3.4.4.20180111
+    - for /F "delims===" %i in ('pip list --outdated') do pip install -U %i
   - os: windows
     language: shell
     before_install:
     - DOSKEY python3=py
     - choco install python --version 3.5.4
+    - for /F "delims===" %i in ('pip list --outdated') do pip install -U %i
   - os: windows
     language: shell
     before_install:
     - DOSKEY python3=py
     - choco install python --version 3.6.8
+    - for /F "delims===" %i in ('pip list --outdated') do pip install -U %i
   - os: windows
     language: shell
     before_install:
     - DOSKEY python3=py
     - choco install python
+    - for /F "delims===" %i in ('pip list --outdated') do pip install -U %i
   - os: windows
     language: shell
     before_install:
     - DOSKEY python3=py
     - choco install python --pre
+    - for /F "delims===" %i in ('pip list --outdated') do pip install -U %i
 install:
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then python3 -m pip list --outdated --format=freeze | grep -v '^\-e' | cut -d = -f 1  | xargs -n1 python3 -m pip install -U; fi
-  - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then for /F "delims===" %i in ('pip list --outdated') do pip install -U %i; fi
   - "python3 setup.py install"
 script:
   - "python3 tests/get_show_no_token.py"
