@@ -71,7 +71,7 @@ class BaseHQApi:
 
 
 class HQApi(BaseHQApi):
-    def __init__(self, authtoken: str = "", version: str = "1.30.0"):
+    def __init__(self, authtoken: str = "", version: str = "1.30.0", proxy: str = None):
         super().__init__(authtoken)
         self.authToken = authtoken
         self.version = version
@@ -82,6 +82,7 @@ class HQApi(BaseHQApi):
             self.headers = {
                 "Authorization": "Bearer " + self.authtoken,
                 "x-hq-client": "Android/" + self.version}
+        self.p = dict(http=proxy, https=proxy)
 
     def fetch(self, method="GET", func="", data=None):
         if data is None:
@@ -89,22 +90,22 @@ class HQApi(BaseHQApi):
         try:
             if method == "GET":
                 content = requests.get("https://api-quiz.hype.space/{}".format(func), data=data,
-                                       headers=self.headers).json()
+                                       headers=self.headers, proxies=self.p).json()
             elif method == "POST":
                 content = requests.post("https://api-quiz.hype.space/{}".format(func), data=data,
-                                        headers=self.headers).json()
+                                        headers=self.headers, proxies=self.p).json()
             elif method == "PATCH":
                 content = requests.patch("https://api-quiz.hype.space/{}".format(func), data=data,
-                                         headers=self.headers).json()
+                                         headers=self.headers, proxies=self.p).json()
             elif method == "DELETE":
                 content = requests.delete("https://api-quiz.hype.space/{}".format(func), data=data,
-                                          headers=self.headers).json()
+                                          headers=self.headers, proxies=self.p).json()
             elif method == "PUT":
                 content = requests.put("https://api-quiz.hype.space/{}".format(func), data=data,
-                                       headers=self.headers).json()
+                                       headers=self.headers, proxies=self.p).json()
             else:
                 content = requests.get("https://api-quiz.hype.space/{}".format(func), data=data,
-                                       headers=self.headers).json()
+                                       headers=self.headers, proxies=self.p).json()
             error = content.get("error")
             if error:
                 raise ApiResponseError(json.dumps(content))
