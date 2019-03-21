@@ -48,6 +48,8 @@ print(str(api.get_show()))
 | `check_username`   | Check username availability                       |
 | `custom`           | Custom request                                    |
 
+[More info about methods](https://github.com/katant/HQApi/blob/master/HQApi.md) 
+
 ## HQWebsocket Methods
 | Method             | Description        |
 |--------------------|--------------------|
