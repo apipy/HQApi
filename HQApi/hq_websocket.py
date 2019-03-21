@@ -6,6 +6,7 @@ from HQApi.exceptions import NotLive, WebSocketNotAvailable
 
 class HQWebSocket:
     def __init__(self, api: HQApi, demo: bool = False, proxy: str = None):
+        # TODO: Rewrite it so it doesn't look like shit.
         self.api = api
         self.authtoken = self.api.authtoken
         self.version = self.api.version

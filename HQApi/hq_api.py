@@ -15,7 +15,7 @@ class BaseHQApi:
         return self.fetch("GET", "users/me")
 
     def get_user(self, id):
-        return self.fetch("GET", "users/{}".format(str(id)))
+        return self.fetch("GET", "users/{}".format(id))
 
     def search(self, name):
         return self.fetch("GET", 'users?q={}'.format(name))
@@ -26,22 +26,22 @@ class BaseHQApi:
     def get_show(self):
         return self.fetch("GET", "shows/now")
 
-    def easter_egg(self):
-        return self.fetch("POST", "easter-eggs/makeItRain")
+    def easter_egg(self, type: str = "makeItRain"):
+        return self.fetch("POST", "easter-eggs/{}".format(type))
 
-    def make_payout(self, email):
+    def make_payout(self, email: str):
         return self.fetch("POST", "users/me/payouts", {"email": email})
 
-    def send_code(self, phone, method):
+    def send_code(self, phone: str, method: str = "sms"):
         return self.fetch("POST", "verifications", {"phone": phone, "method": method})
 
     def confirm_code(self, verificationid, code):
         return self.fetch("POST", "verifications/{}".format(verificationid), {"code": code})
 
-    def register(self, verificationid, name, refferal):
+    def register(self, verificationid, name, referral: str = None):
         return self.fetch("POST", "users", {
             "country": "MQ==", "language": "eu",
-            "referringUsername": refferal,
+            "referringUsername": referral,
             "username": name,
             "verificationId": verificationid})
 
@@ -52,16 +52,16 @@ class BaseHQApi:
         return self.fetch("DELETE", "users/me/avatarUrl")
 
     def add_friend(self, id):
-        return self.fetch("POST", "friends/{}/requests".format(str(id)))
+        return self.fetch("POST", "friends/{}/requests".format(id))
 
     def friend_status(self, id):
-        return self.fetch("GET", "friends/{}/status".format(str(id)))
+        return self.fetch("GET", "friends/{}/status".format(id))
 
     def remove_friend(self, id):
-        return self.fetch("DELETE", "friends/{}".format(str(id)))
+        return self.fetch("DELETE", "friends/{}".format(id))
 
     def accept_friend(self, id):
-        return self.fetch("PUT", "friends/{}/status".format(str(id)), {"status": "ACCEPTED"})
+        return self.fetch("PUT", "friends/{}/status".format(id), {"status": "ACCEPTED"})
 
     def check_username(self, name):
         return self.fetch("POST", "usernames/available", {"username": name})

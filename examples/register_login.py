@@ -10,10 +10,10 @@ code = int(input("Code... "))
 api.confirm_code(verification["verificationId"], str(code))
 
 name = str(input("Name... "))
-refferal = str(input("Refferal... "))
+referral = str(input("Referral... "))
 while True:
     try:
-        bearer = api.register(verification["verificationId"], name, refferal)
+        bearer = api.register(verification["verificationId"], name, referral)
         break
     except:
         print("Too long")
