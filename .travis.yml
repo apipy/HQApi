@@ -1,36 +1,6 @@
 language: python
 matrix:
   include:
-  - os: windows
-    language: shell
-    before_install:
-    - choco install python --version 3.4.4.20180111
-    - call RefreshEnv.cmd
-    - DOSKEY python3=py
-  - os: windows
-    language: shell
-    before_install:
-    - choco install python --version 3.5.4
-    - call RefreshEnv.cmd
-    - DOSKEY python3=py
-  - os: windows
-    language: shell
-    before_install:
-    - choco install python --version 3.6.8
-    - call RefreshEnv.cmd
-    - DOSKEY python3=py
-  - os: windows
-    language: shell
-    before_install:
-    - choco install python
-    - call RefreshEnv.cmd
-    - DOSKEY python3=py
-  - os: windows
-    language: shell
-    before_install:
-    - choco install python --pre
-    - call RefreshEnv.cmd
-    - DOSKEY python3=py
   - os: linux
     sudo: required
     python: 3.4
