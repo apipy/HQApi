@@ -4,7 +4,7 @@ HQ Trivia & Words API, written in Python
 [![Build Status](https://travis-ci.org/katant/HQApi.svg?branch=master)](https://travis-ci.org/katant/HQApi)
 
 ## Installation
-1. Install from pip (may be outdated):
+1. Install from pip (Outdated, use sources method):
 ```bash
 pip3 install HQApi
 ```
