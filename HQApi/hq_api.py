@@ -1,6 +1,5 @@
 import json
 import requests
-
 from HQApi.exceptions import ApiResponseError, BannedIPError
 
 
@@ -14,7 +13,7 @@ class BaseHQApi:
     def get_users_me(self):
         return self.fetch("GET", "users/me")
 
-    def get_user(self, id):
+    def get_user(self, id: str):
         return self.fetch("GET", "users/{}".format(id))
 
     def search(self, name):
@@ -35,10 +34,10 @@ class BaseHQApi:
     def send_code(self, phone: str, method: str = "sms"):
         return self.fetch("POST", "verifications", {"phone": phone, "method": method})
 
-    def confirm_code(self, verificationid, code):
+    def confirm_code(self, verificationid: str, code: int):
         return self.fetch("POST", "verifications/{}".format(verificationid), {"code": code})
 
-    def register(self, verificationid, name, referral: str = None):
+    def register(self, verificationid: str, name: str, referral: str = None):
         return self.fetch("POST", "users", {
             "country": "MQ==", "language": "eu",
             "referringUsername": referral,
@@ -51,19 +50,19 @@ class BaseHQApi:
     def delete_avatar(self):
         return self.fetch("DELETE", "users/me/avatarUrl")
 
-    def add_friend(self, id):
+    def add_friend(self, id: str):
         return self.fetch("POST", "friends/{}/requests".format(id))
 
-    def friend_status(self, id):
+    def friend_status(self, id: str):
         return self.fetch("GET", "friends/{}/status".format(id))
 
-    def remove_friend(self, id):
+    def remove_friend(self, id: str):
         return self.fetch("DELETE", "friends/{}".format(id))
 
-    def accept_friend(self, id):
+    def accept_friend(self, id: str):
         return self.fetch("PUT", "friends/{}/status".format(id), {"status": "ACCEPTED"})
 
-    def check_username(self, name):
+    def check_username(self, name: str):
         return self.fetch("POST", "usernames/available", {"username": name})
 
     def custom(self, method, func, data):
