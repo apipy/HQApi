@@ -1,49 +1,43 @@
 from lomond import WebSocket
-
 from HQApi import HQApi
-from HQApi.exceptions import NotLive, WebSocketNotAvailable
+from HQApi.exceptions import NotLive, WebSocketNotAvailable, ApiResponseError, BannedIPError
 
 
 class HQWebSocket:
     def __init__(self, api: HQApi, demo: bool = False, proxy: str = None):
-        # TODO: Rewrite it so it doesn't look like shit.
         self.api = api
         self.authtoken = self.api.authtoken
-        self.version = self.api.version
-        if self.authtoken != "":
-            self.headers = {
-                "x-hq-client": "Android/" + self.api.version,
-                "Authorization": "Bearer " + self.authtoken}
-            try:
-                if HQApi.get_show(api)["active"]:
-                    self.socket = HQApi.get_show(api)["broadcast"]["socketUrl"].replace("https", "wss")
-                    self.broadcast = HQApi.get_show(api)['broadcast']['broadcastId']
-                elif demo:
-                    print("Using demo websocket!")
-                    self.socket = "wss://hqecho.herokuapp.com"  # Websocket with questions 24/7
-                    self.broadcast = 1
-                else:
-                    raise NotLive("Show isn't live and demo mode is disabled")
-            except HQApi.exceptions.BannedIPError:
-                if demo:
-                    print("Using demo websocket!")
-                    self.socket = "wss://hqecho.herokuapp.com"  # Websocket with questions 24/7
-                    self.broadcast = 1
-                else:
-                    raise WebSocketNotAvailable("You can't use websocket with banned IP")
-            self.ws = WebSocket(self.socket)
-            for header, value in self.headers.items():
-                self.ws.add_header(str.encode(header), str.encode(value))
-            for _ in self.ws.connect():
-                self.success = 1
-        elif demo:
-            print("Using demo websocket!")
+        self.headers = self.api.headers
+        try:
+            self.headers["Authorization"]
+        except:
+            if demo:
+                self.use_demo = True
+            else:
+                raise WebSocketNotAvailable("You can't use websocket without bearer")
+        try:
+            self.show = HQApi.get_show(api)["active"]
+            self.socket = self.show["broadcast"]["socketUrl"].replace("https", "wss")
+            self.broadcast = self.show['broadcast']['broadcastId']
+        except BannedIPError or ApiResponseError:
+            if demo:
+                self.use_demo = True
+            else:
+                raise WebSocketNotAvailable("You can't use websocket with banned IP or invalid auth")
+        except:
+            if demo:
+                self.use_demo = True
+            else:
+                raise NotLive("Show isn't live and demo mode is disabled")
+        if self.use_demo:
+            print("[HQApi] Using demo websocket! Don't create issues with this websocket")
             self.socket = "wss://hqecho.herokuapp.com"  # Websocket with questions 24/7
             self.broadcast = 1
             self.ws = WebSocket(self.socket)
-            self.ws.connect()
         else:
-            raise WebSocketNotAvailable("You can't use websocket without bearer")
+            self.ws = WebSocket(self.socket)
+            for header, value in self.headers.items():
+                self.ws.add_header(str.encode(header), str.encode(value))
 
     def send_json(self, json=None):
         if json is None:

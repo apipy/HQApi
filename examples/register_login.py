@@ -7,7 +7,7 @@ verification = api.send_code("+" + str(phone), "sms")
 # To request call, send sms, wait 30 seconds and then request call
 code = int(input("Code... "))
 
-api.confirm_code(verification["verificationId"], str(code))
+api.confirm_code(verification["verificationId"], code)
 
 name = str(input("Name... "))
 referral = str(input("Referral... "))
@@ -17,5 +17,4 @@ while True:
         break
     except:
         print("Too long")
-        pass
 print("Bearer: " + bearer["accessToken"])
