@@ -17,14 +17,13 @@ python3 setup.py install
 ```
 
 ## Usage
-Example code to get next US show game:
+Example code to get next show time and info:
 ```python
 from HQApi import HQApi
 
-bearer = "Bearer"
-api = HQApi(bearer)
+api = HQApi()
 
-print(str(api.get_show()))
+print(api.get_show())
 ```
 
 ## HQApi Methods
