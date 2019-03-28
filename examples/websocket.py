@@ -1,13 +1,11 @@
 import json
 import re
-
 from lomond.persist import persist
-
 from HQApi import HQApi, HQWebSocket
 
 bearer = "Bearer"
 api = HQApi(bearer)
-ws = HQWebSocket(api, True)
+ws = HQWebSocket(api, demo=True, log_new_methods=True)
 websocket = ws.get()
 
 for msg in persist(websocket):
