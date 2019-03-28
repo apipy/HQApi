@@ -8,6 +8,7 @@ class HQWebSocket:
         self.api = api
         self.authtoken = self.api.authtoken
         self.headers = self.api.headers
+        self.use_demo = False
         try:
             self.headers["Authorization"]
         except:
@@ -16,7 +17,7 @@ class HQWebSocket:
             else:
                 raise WebSocketNotAvailable("You can't use websocket without bearer")
         try:
-            self.show = HQApi.get_show(api)["active"]
+            self.show = HQApi.get_show(api)
             self.socket = self.show["broadcast"]["socketUrl"].replace("https", "wss")
             self.broadcast = self.show['broadcast']['broadcastId']
         except BannedIPError or ApiResponseError:
