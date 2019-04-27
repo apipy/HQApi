@@ -11,7 +11,7 @@ setuptools.setup(
     description="HQ Trivia & Words API",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/katant/HQApi",
+    url="https://github.com/apipy/HQApi",
     install_requires=['requests', 'lomond'],
     packages=["HQApi"],
     python_requires='>=3.4',
