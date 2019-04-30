@@ -98,7 +98,7 @@ class HQWebSocket:
                         "broadcastId": self.broadcast, "letter": letter,
                         "roundId": roundId})
 
-    def get_erasers(self, friendsIds: dict):
+    def get_erasers(self, friendsIds: list):
         self.send_json({"authToken": self.authtoken,
                         "friendsIds": friendsIds,
                         "broadcastId": self.broadcast,
