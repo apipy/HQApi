@@ -8,11 +8,8 @@ from HQApi.exceptions import NotLive, WebSocketNotAvailable, ApiResponseError, B
 
 
 class HQWebSocket:
-    def __init__(self, api: HQApi, demo: bool = False, log_new_methods: bool = True, proxy: str = None):
+    def __init__(self, api: HQApi, demo: bool = False, proxy: str = None):
         self.api = api
-        self.log = log_new_methods
-        if self.log and not demo:
-            print("[HQApi] Thanks for contributing HQApi methods! Please upload log file to https://github.com/katant/hqapi/issues.")
         self.handlers = {}
         self.authtoken = self.api.authtoken
         self.headers = self.api.headers
@@ -121,13 +118,9 @@ class HQWebsocketListener(threading.Thread):
     def __init__(self, new):
         threading.Thread.__init__(self)
         self.new = new
-        self.methods = ["broadcastStats", "gameStatus", "interaction", "question", "questionClosed", "questionSummary", "questionFinished"]
 
     def run(self):
         for msg in persist(self.new.ws):
             if msg.name == "text":
                 data = json.loads(re.sub(r"[\x00-\x1f\x7f-\x9f]", "", msg.text))
-                if self.new.log and data["type"] not in self.methods:
-                    print("[HQApi] New %s method detected, json: %s" % (data["type"], data))
-                    self.methods.append(data["type"])
                 self.new.call({"type": data["type"], "data": data})
