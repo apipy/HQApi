@@ -1,7 +1,7 @@
 # HQApi
 HQ Trivia & Words API, written in Python 
 
-[![Build Status](https://travis-ci.org/apipy/HQApi.svg?branch=master)](https://travis-ci.org/katant/HQApi)
+[![Build Status](https://travis-ci.org/apipy/HQApi.svg?branch=master)](https://travis-ci.org/apipy/HQApi)
 
 ## Installation
 1. Install from pip (Outdated, use sources method):
@@ -27,7 +27,7 @@ print(api.get_show())
 ```
 
 ## HQApi Methods
-[All information about methods](https://github.com/katant/HQApi/blob/master/HQApi.md) 
+[All information about methods](https://github.com/apipy/HQApi/blob/master/HQApi.md) 
 
 ## HQWebsocket Methods
 | Method             | Description        |
@@ -46,8 +46,8 @@ print(api.get_show())
 ## Examples
 | Example             | Description                                                                                        |
 |---------------------|----------------------------------------------------------------------------------------------------|
-| `get_show.py`       | [Get next show](https://github.com/katant/HQApi/blob/master/examples/get_show.py)                  |
-| `decode_token.py`   | [Get info from token](https://github.com/katant/HQApi/blob/master/examples/decode_token.py)        |
-| `register_login.py` | [Login or register](https://github.com/katant/HQApi/blob/master/examples/register_login.py)        |
-| `websocket.py`      | [Work with websocket](https://github.com/katant/HQApi/blob/master/examples/websocket.py)           |
-| `websocket_event.py`| [Websocket with events](https://github.com/katant/HQApi/blob/master/examples/websocket_event.py)   |
+| `get_show.py`       | [Get next show](https://github.com/apipy/HQApi/blob/master/examples/get_show.py)                  |
+| `decode_token.py`   | [Get info from token](https://github.com/apipy/HQApi/blob/master/examples/decode_token.py)        |
+| `register_login.py` | [Login or register](https://github.com/apipy/HQApi/blob/master/examples/register_login.py)        |
+| `websocket.py`      | [Work with websocket](https://github.com/apipy/HQApi/blob/master/examples/websocket.py)           |
+| `websocket_event.py`| [Websocket with events](https://github.com/apipy/HQApi/blob/master/examples/websocket_event.py)   |
