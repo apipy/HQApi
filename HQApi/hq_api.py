@@ -1,11 +1,14 @@
 import json
 import requests
+from aws_requests_auth.aws_auth import AWSRequestsAuth
+import jwt
 from HQApi.exceptions import ApiResponseError, BannedIPError
 
 
 class BaseHQApi:
-    def __init__(self, authtoken):
-        self.authtoken = authtoken
+    def __init__(self, token: str = None, logintoken: str = None):
+        self.token = token
+        self.logintoken = logintoken
 
     def api(self):
         return self
@@ -50,6 +53,9 @@ class BaseHQApi:
     def delete_avatar(self):
         return self.fetch("DELETE", "users/me/avatarUrl")
 
+    def add_referral(self, referral: str):
+        return self.fetch("PATCH", "users/me", {"referringUsername": referral})
+
     def add_friend(self, id: str):
         return self.fetch("POST", "friends/{}/requests".format(id))
 
@@ -65,45 +71,79 @@ class BaseHQApi:
     def check_username(self, name: str):
         return self.fetch("POST", "usernames/available", {"username": name})
 
+    def get_tokens(self, login_token: str):
+        return self.fetch("POST", "tokens", {'token': login_token})
+
+    def edit_username(self, username: str):
+        return self.fetch("PATCH", "users/me", {"username": username})
+
+    def get_logintoken(self):
+        return self.fetch("GET", "users/me/token")
+
+    def send_documents(self, id, email, paypal_email, country):
+        return self.fetch("POST", "users/{}/payouts/documents".format(id),
+                          {"email": email, "country": country, "payout": paypal_email})
+
+    def register_device_token(self, token):
+        return self.fetch("POST", "users/me/devices", {"token": token})
+
+    def change_avatar(self, url):
+        return self.fetch("PUT", "users/me/avatarUrl", {"avatarUrl": url})
+
+    def upload_avatar(self, file):
+        aws = self.aws_credentials()
+        requests.put("https://hypespace-quiz.s3.amazonaws.com/avatars/{}".format(file),
+                     data=open(file, 'rb').read(), auth=AWSRequestsAuth(aws_access_key=aws["accessKeyId"],
+                                                                        aws_secret_access_key=aws["secretKey"],
+                                                                        aws_token=aws["sessionToken"],
+                                                                        aws_host='hypespace-quiz.s3.amazonaws.com',
+                                                                        aws_region='us-east-1',
+                                                                        aws_service='s3'), headers={"Content-Type": "text/html"})
+
     def custom(self, method, func, data):
         return self.fetch(method, func, data)
 
 
 class HQApi(BaseHQApi):
-    def __init__(self, authtoken: str = "", version: str = "1.30.0", proxy: str = None):
-        super().__init__(authtoken)
-        self.authToken = authtoken
+    def __init__(self, token: str = None, logintoken: str = None, version: str = "1.33.0", host: str = "https://api-quiz.hype.space/", proxy: str = None, authtoken: str = None):
+        super().__init__(token, logintoken)
+        if authtoken:
+            raise DeprecationWarning("Use token instead of token.")
+        self.authToken = token
+        self.logintoken = logintoken
         self.version = version
-        if authtoken == "":
-            self.headers = {
-                "x-hq-client": "Android/" + self.version}
-        else:
-            self.headers = {
-                "Authorization": "Bearer " + self.authtoken,
-                "x-hq-client": "Android/" + self.version}
+        self.host = host
         self.p = dict(http=proxy, https=proxy)
+        self.headers = {
+            "x-hq-client": "Android/" + self.version}
+        if logintoken:
+            self.token = self.get_tokens(logintoken)["accessToken"]
+        if token:
+            self.headers = {
+                "Authorization": "Bearer " + self.token,
+                "x-hq-client": "Android/" + self.version}
 
     def fetch(self, method="GET", func="", data=None):
         if data is None:
             data = {}
         try:
             if method == "GET":
-                content = requests.get("https://api-quiz.hype.space/{}".format(func), data=data,
+                content = requests.get(self.host + "{}".format(func), data=data,
                                        headers=self.headers, proxies=self.p).json()
             elif method == "POST":
-                content = requests.post("https://api-quiz.hype.space/{}".format(func), data=data,
+                content = requests.post(self.host + "{}".format(func), data=data,
                                         headers=self.headers, proxies=self.p).json()
             elif method == "PATCH":
-                content = requests.patch("https://api-quiz.hype.space/{}".format(func), data=data,
+                content = requests.patch(self.host + "{}".format(func), data=data,
                                          headers=self.headers, proxies=self.p).json()
             elif method == "DELETE":
-                content = requests.delete("https://api-quiz.hype.space/{}".format(func), data=data,
+                content = requests.delete(self.host + "{}".format(func), data=data,
                                           headers=self.headers, proxies=self.p).json()
             elif method == "PUT":
-                content = requests.put("https://api-quiz.hype.space/{}".format(func), data=data,
+                content = requests.put(self.host + "{}".format(func), data=data,
                                        headers=self.headers, proxies=self.p).json()
             else:
-                content = requests.get("https://api-quiz.hype.space/{}".format(func), data=data,
+                content = requests.get(self.host + "{}".format(func), data=data,
                                        headers=self.headers, proxies=self.p).json()
             error = content.get("error")
             if error:
@@ -111,3 +151,8 @@ class HQApi(BaseHQApi):
             return content
         except json.decoder.JSONDecodeError:
             raise BannedIPError("Your IP is banned")
+
+    def decode_token(self, token: str = None):
+        if token:
+            self.token = token
+        return jwt.decode(self.token.encode(), verify=False)

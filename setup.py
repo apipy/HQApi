@@ -5,14 +5,14 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="HQApi",
-    version="1.12.0",
+    version="2.0.0",
     author="Katant",
     author_email="katant.savelev@yandex.ru",
     description="HQ Trivia & Words API",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/katant/HQApi",
-    install_requires=['requests', 'lomond'],
+    url="https://github.com/apipy/HQApi",
+    install_requires=['requests', 'lomond', 'aws-requests-auth', 'PyJWT'],
     packages=["HQApi"],
     python_requires='>=3.4',
     classifiers=[

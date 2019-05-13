@@ -13,8 +13,8 @@ name = str(input("Name... "))
 referral = str(input("Referral... "))
 while True:
     try:
-        bearer = api.register(verification["verificationId"], name, referral)
+        token = api.register(verification["verificationId"], name, referral)
         break
     except:
         print("Too long")
-print("Bearer: " + bearer["accessToken"])
+print("Token: " + token["accessToken"])
