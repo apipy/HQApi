@@ -1,8 +1,8 @@
 from HQApi import HQApi, HQWebSocket
 
-bearer = "Bearer"
-api = HQApi(bearer)
-ws = HQWebSocket(api, demo=True, log_new_methods=True)
+token = "Token"
+api = HQApi(token)
+ws = HQWebSocket(api, demo=True)
 ws.listen()
 
 

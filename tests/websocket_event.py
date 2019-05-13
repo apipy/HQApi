@@ -6,5 +6,5 @@ ws.listen()
 
 
 @ws.event("interaction")
-def interaction(data):
+def interaction(_):
     exit()

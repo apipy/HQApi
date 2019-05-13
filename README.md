@@ -11,7 +11,7 @@ pip3 install HQApi
 
 2. Install from sources:
 ```bash
-git clone https://github.com/katant/HQApi.git
+git clone https://github.com/apipy/HQApi.git
 cd HQApi
 python3 setup.py install
 ```
@@ -27,27 +27,7 @@ print(api.get_show())
 ```
 
 ## HQApi Methods
-| Method             | Description                                       |
-|--------------------|---------------------------------------------------|
-| `get_users_me`     | Information about your account                    |
-| `get_user`         | Information about account by ID                   |
-| `get_payouts_me`   | Information about payouts                         |
-| `get_show`         | Information about next show                       |
-| `easter_egg`       | Easter egg, gives 1 life once a week              |
-| `make_payout`      | Makes payout to your paypal (Can't bypass ban)    |
-| `send_code`        | Send sms or call to number                        |
-| `confirm_code`     | Confirm received sms                              |
-| `register`         | Register account                                  |
-| `aws_credentials`  | Get credentials                                   |
-| `delete_avatar`    | Delete avatar                                     |
-| `add_friend`       | Add friend                                        |
-| `friend_status`    | Get friend status                                 |
-| `remove_friend`    | Delete friend                                     |
-| `accept_friend`    | Accept friend                                     |
-| `check_username`   | Check username availability                       |
-| `custom`           | Custom request                                    |
-
-[More info about methods](https://github.com/katant/HQApi/blob/master/HQApi.md) 
+[All information about methods](https://github.com/katant/HQApi/blob/master/HQApi.md) 
 
 ## HQWebsocket Methods
 | Method             | Description        |
@@ -64,9 +44,10 @@ print(api.get_show())
 | `send_eraser`      | Send eraser        |
 
 ## Examples
-| Example             | Description                                                                                    |
-|---------------------|------------------------------------------------------------------------------------------------|
-| `get_show.py`       | [Get next show](https://github.com/katant/HQApi/blob/master/examples/get_show.py)              |
-| `life_bot.py`       | [Life bot to generate lifes](https://github.com/katant/HQApi/blob/master/examples/life_bot.py) |
-| `register_login.py` | [Login or register](https://github.com/katant/HQApi/blob/master/examples/register_login.py)    |
-| `websocket.py`      | [Work with websocket](https://github.com/katant/HQApi/blob/master/examples/websocket.py)       |
+| Example             | Description                                                                                        |
+|---------------------|----------------------------------------------------------------------------------------------------|
+| `get_show.py`       | [Get next show](https://github.com/katant/HQApi/blob/master/examples/get_show.py)                  |
+| `decode_token.py`   | [Get info from token](https://github.com/katant/HQApi/blob/master/examples/decode_token.py)        |
+| `register_login.py` | [Login or register](https://github.com/katant/HQApi/blob/master/examples/register_login.py)        |
+| `websocket.py`      | [Work with websocket](https://github.com/katant/HQApi/blob/master/examples/websocket.py)           |
+| `websocket_event.py`| [Websocket with events](https://github.com/katant/HQApi/blob/master/examples/websocket_event.py)   |

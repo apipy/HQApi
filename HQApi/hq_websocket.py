@@ -8,13 +8,10 @@ from HQApi.exceptions import NotLive, WebSocketNotAvailable, ApiResponseError, B
 
 
 class HQWebSocket:
-    def __init__(self, api: HQApi, demo: bool = False, log_new_methods: bool = True, proxy: str = None):
+    def __init__(self, api: HQApi, demo: bool = False):
         self.api = api
-        self.log = log_new_methods
-        if self.log and not demo:
-            print("[HQApi] Thanks for contributing HQApi methods! Please upload log file to https://github.com/katant/hqapi/issues.")
         self.handlers = {}
-        self.authtoken = self.api.authtoken
+        self.token = self.api.token
         self.headers = self.api.headers
         self.use_demo = False
         try:
@@ -23,7 +20,7 @@ class HQWebSocket:
             if demo:
                 self.use_demo = True
             else:
-                raise WebSocketNotAvailable("You can't use websocket without bearer")
+                raise WebSocketNotAvailable("You can't use websocket without token")
         try:
             self.show = HQApi.get_show(api)
             self.socket = self.show["broadcast"]["socketUrl"].replace("https", "wss")
@@ -60,6 +57,7 @@ class HQWebSocket:
             else:
                 self.handlers[type] = [handler]
             return handler
+
         return registerhandler
 
     def listen(self):
@@ -72,34 +70,34 @@ class HQWebSocket:
         self.ws.send_json(json)
 
     def send_life(self, questionId: int):
-        self.send_json({"questionId": questionId, "authToken": self.authtoken,
+        self.send_json({"questionId": questionId, "authToken": self.token,
                         "broadcastId": self.broadcast,
                         "type": "useExtraLife"})
 
     def send_answer(self, answerId: int, questionId: int):
         self.send_json({"answerId": answerId,
-                        "questionId": questionId, "authToken": self.authtoken,
+                        "questionId": questionId, "authToken": self.token,
                         "broadcastId": self.broadcast, "type": "answer"})
 
     def send_comment(self, avatarUrl: str, message: str, userId: int, username: str):
         self.send_json({"metadata": {"avatarUrl": avatarUrl,
                                      "interaction": "chat", "message": message, "userId": userId,
                                      "username": username}, "itemId": "chat",
-                        "authToken": self.authtoken,
+                        "authToken": self.token,
                         "broadcastId": self.broadcast, "type": "interaction"})
 
     def send_wheel(self, showId: int, letter: str):
-        self.send_json({"type": "spin", "authToken": self.authtoken,
+        self.send_json({"type": "spin", "authToken": self.token,
                         "showId": showId, "broadcastId": self.broadcast,
                         "letter": letter})
 
     def send_letter(self, showId: int, letter: str, roundId: int):
-        self.send_json({"type": "guess", "authToken": self.authtoken, "showId": showId,
+        self.send_json({"type": "guess", "authToken": self.token, "showId": showId,
                         "broadcastId": self.broadcast, "letter": letter,
                         "roundId": roundId})
 
-    def get_erasers(self, friendsIds: dict):
-        self.send_json({"authToken": self.authtoken,
+    def get_erasers(self, friendsIds: list):
+        self.send_json({"authToken": self.token,
                         "friendsIds": friendsIds,
                         "broadcastId": self.broadcast,
                         "type": "erase1Earned"})
@@ -107,8 +105,15 @@ class HQWebSocket:
     def send_eraser(self, questionId: int):
         self.send_json({"type": "erase1",
                         "questionId": questionId,
-                        "authToken": self.authtoken,
+                        "authToken": self.token,
                         "broadcastId": self.broadcast})
+
+    def subscribe(self, type: str):
+        self.send_json({"type": "subscribe",
+                        "broadcastId": self.broadcast,
+                        "authToken": self.token,
+                        "gameType": type
+                        })
 
     def get(self):
         return self.ws
@@ -121,13 +126,9 @@ class HQWebsocketListener(threading.Thread):
     def __init__(self, new):
         threading.Thread.__init__(self)
         self.new = new
-        self.methods = ["broadcastStats", "gameStatus", "interaction", "question", "questionClosed", "questionSummary", "questionFinished"]
 
     def run(self):
         for msg in persist(self.new.ws):
             if msg.name == "text":
-                data = json.loads(re.sub(r"[\x00-\x1f\x7f-\x9f]", "", msg.text))
-                if self.new.log and data["type"] not in self.methods:
-                    print("[HQApi] New %s method detected, json: %s" % (data["type"], data))
-                    self.methods.append(data["type"])
+                data = json.loads(msg.text)
                 self.new.call({"type": data["type"], "data": data})
