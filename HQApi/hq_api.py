@@ -109,7 +109,7 @@ class HQApi(BaseHQApi):
         super().__init__(token, logintoken)
         if authtoken:
             raise DeprecationWarning("Use token instead of token.")
-        self.authToken = token
+        self.token = token
         self.logintoken = logintoken
         self.version = version
         self.host = host
@@ -118,7 +118,7 @@ class HQApi(BaseHQApi):
             "x-hq-client": "Android/" + self.version}
         if logintoken:
             self.token = self.get_tokens(logintoken)["accessToken"]
-        if token:
+        if self.token:
             self.headers = {
                 "Authorization": "Bearer " + self.token,
                 "x-hq-client": "Android/" + self.version}
