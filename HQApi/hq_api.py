@@ -105,10 +105,10 @@ class BaseHQApi:
 
 
 class HQApi(BaseHQApi):
-    def __init__(self, token: str = None, logintoken: str = None, version: str = "1.33.0", host: str = "https://api-quiz.hype.space/", proxy: str = None, authtoken: str = None):
+    def __init__(self, token: str = None, logintoken: str = None,
+                 version: str = "1.33.0", host: str = "https://api-quiz.hype.space/",
+                 proxy: str = None):
         super().__init__(token, logintoken)
-        if authtoken:
-            raise DeprecationWarning("Use token instead of token.")
         self.token = token
         self.logintoken = logintoken
         self.version = version
