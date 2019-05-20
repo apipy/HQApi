@@ -1,5 +1,4 @@
 import json
-import re
 import threading
 from lomond import WebSocket
 from lomond.persist import persist
@@ -64,15 +63,20 @@ class HQWebSocket:
         thread = HQWebsocketListener(self)
         thread.start()
 
-    def send_json(self, json=None):
-        if json is None:
-            json = {}
-        self.ws.send_json(json)
+    def send_json(self, js=None):
+        if js is None:
+            js = {}
+        self.ws.send_json(js)
 
-    def send_life(self, questionId: int):
-        self.send_json({"questionId": questionId, "authToken": self.token,
-                        "broadcastId": self.broadcast,
-                        "type": "useExtraLife"})
+    def send_life(self, questionId: int = 0, roundId: int = 0):
+        if questionId != 0:
+            self.send_json({"questionId": questionId, "authToken": self.token,
+                            "broadcastId": self.broadcast,
+                            "type": "useExtraLife"})
+        elif roundId != 0:
+            self.send_json({"roundId": questionId, "authToken": self.token,
+                            "broadcastId": self.broadcast,
+                            "type": "useExtraLife"})
 
     def send_answer(self, answerId: int, questionId: int):
         self.send_json({"answerId": answerId,
@@ -86,10 +90,11 @@ class HQWebSocket:
                         "authToken": self.token,
                         "broadcastId": self.broadcast, "type": "interaction"})
 
-    def send_wheel(self, showId: int, letter: str):
-        self.send_json({"type": "spin", "authToken": self.token,
-                        "showId": showId, "broadcastId": self.broadcast,
-                        "letter": letter})
+    def send_wheel(self, showId: int, letter: str, item: str):
+        self.send_json({"broadcastId": self.broadcast,
+                        "authToken": self.token,
+                        "type": "spin", "superWheelItem": item,
+                        "letter": letter, "showId": showId})
 
     def send_letter(self, showId: int, letter: str, roundId: int):
         self.send_json({"type": "guess", "authToken": self.token, "showId": showId,
@@ -112,8 +117,49 @@ class HQWebSocket:
         self.send_json({"type": "subscribe",
                         "broadcastId": self.broadcast,
                         "authToken": self.token,
-                        "gameType": type
-                        })
+                        "gameType": type})
+
+    def chat_visibility(self, enable: bool):
+        self.send_json({"chatVisible": enable, "authToken": self.token,
+                        "broadcastId": self.broadcast,
+                        "type": "chatVisibilityToggled"})
+
+    def checkpoint(self, winNow: bool, checkpointId: str):
+        self.send_json({"broadcastId": self.broadcast,
+                        "authToken": self.token,
+                        "winNow": winNow,
+                        "checkpointId": checkpointId,
+                        "type": "checkpointResponse"})
+
+    def send_wave(self, user: int, waveText: str):
+        self.send_json({"broadcastId": self.broadcast,
+                        "authToken": self.token,
+                        "type": "sendWave",
+                        "toUser": user,
+                        "waveText": waveText})
+
+    def send_survey_answer(self, answer: str, question: str):
+        self.send_json({"broadcastId": self.broadcast,
+                        "authToken": self.token,
+                        "type": "surveyAnswer",
+                        "surveyAnswerId": answer,
+                        "surveyQuestionId": question})
+
+    def toggle_sharing(self, enabled: bool):
+        self.send_json({"broadcastId": self.broadcast,
+                        "authToken": self.token,
+                        "type": "toggleSharing",
+                        "sharingEnabled": enabled})
+
+    def viewer_snapshot(self, visible: bool, drawerOpen: bool, volumeLevel: int, gaid: str, request: int):
+        self.send_json({"userBlob": {"chatVisible": visible,
+                                     "drawerOpen": drawerOpen,
+                                     "volumeLevel": volumeLevel,
+                                     "gaid": gaid},
+                        "broadcastId": self.broadcast,
+                        "authToken": self.token,
+                        "type": "viewerSnapshot",
+                        "snapRequestId": request})
 
     def get(self):
         return self.ws
