@@ -46,8 +46,11 @@ print(api.get_show())
 ## Examples
 | Example             | Description                                                                                        |
 |---------------------|----------------------------------------------------------------------------------------------------|
-| `get_show.py`       | [Get next show](https://github.com/apipy/HQApi/blob/master/examples/get_show.py)                  |
-| `decode_token.py`   | [Get info from token](https://github.com/apipy/HQApi/blob/master/examples/decode_token.py)        |
-| `register_login.py` | [Login or register](https://github.com/apipy/HQApi/blob/master/examples/register_login.py)        |
-| `websocket.py`      | [Work with websocket](https://github.com/apipy/HQApi/blob/master/examples/websocket.py)           |
-| `websocket_event.py`| [Websocket with events](https://github.com/apipy/HQApi/blob/master/examples/websocket_event.py)   |
+| `get_show.py`       | [Get next show](https://github.com/apipy/HQApi/blob/master/examples/get_show.py)                   |
+| `decode_token.py`   | [Get info from token](https://github.com/apipy/HQApi/blob/master/examples/decode_token.py)         |
+| `register_login.py` | [Login or register](https://github.com/apipy/HQApi/blob/master/examples/register_login.py)         |
+| `websocket.py`      | [Work with websocket](https://github.com/apipy/HQApi/blob/master/examples/websocket.py)            |
+| `websocket_event.py`| [Websocket with events](https://github.com/apipy/HQApi/blob/master/examples/websocket_event.py)    |
+
+## Tor
+[How to setup Tor to bypass rate limits](https://github.com/apipy/HQApi/blob/master/tor.md)
