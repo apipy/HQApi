@@ -152,5 +152,5 @@ class HQApi(BaseHQApi):
         except json.decoder.JSONDecodeError:
             raise BannedIPError("Your IP is banned")
 
-    def decode_jwt(self, jwt: str):
-        return jwt.decode(jwt.encode(), verify=False)
+    def decode_jwt(self, jwt_text: str):
+        return jwt.decode(jwt_text.encode(), verify=False)
