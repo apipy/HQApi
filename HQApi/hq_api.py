@@ -106,7 +106,7 @@ class BaseHQApi:
 
 class HQApi(BaseHQApi):
     def __init__(self, token: str = None, logintoken: str = None,
-                 version: str = "1.33.0", host: str = "https://api-quiz.hype.space/",
+                 version: str = "1.34.0", host: str = "https://api-quiz.hype.space/",
                  proxy: str = None):
         super().__init__(token, logintoken)
         self.token = token
@@ -152,7 +152,5 @@ class HQApi(BaseHQApi):
         except json.decoder.JSONDecodeError:
             raise BannedIPError("Your IP is banned")
 
-    def decode_token(self, token: str = None):
-        if token:
-            self.token = token
-        return jwt.decode(self.token.encode(), verify=False)
+    def decode_jwt(self, jwt: str):
+        return jwt.decode(jwt.encode(), verify=False)
