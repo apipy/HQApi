@@ -48,7 +48,6 @@ install:
 script:
   - "python3 tests/decode_token.py"
   - "python3 tests/get_show_no_token.py"
-  - "python3 tests/get_show_proxy.py"
   - "python3 tests/get_users_me_token.py"
   - "python3 tests/websocket_demo.py"
   - "python3 tests/websocket_event.py"
