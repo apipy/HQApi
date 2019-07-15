@@ -26,22 +26,6 @@ api = HQApi()
 print(api.get_show())
 ```
 
-## HQApi Methods
-[All information about methods](https://github.com/apipy/HQApi/blob/master/HQApi.md) 
-
-## HQWebsocket Methods
-| Method             | Description        |
-|--------------------|--------------------|
-| `get`              | Return websocket   |
-| `close`            | Close websocket    |
-| `send_json`        | Send custom json   |
-| `send_answer`      | Send answer        |
-| `send_life`        | Send life          |
-| `send_comment`     | Send comment       |
-| `send_letter`      | Send letter        |
-| `send_wheel`       | Send wheel letter  |
-| `get_erasers`      | Get erasers        |
-| `send_eraser`      | Send eraser        |
 
 ## Examples
 | Example             | Description                                                                                        |

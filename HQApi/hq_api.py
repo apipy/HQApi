@@ -1,6 +1,5 @@
 import json
 import requests
-from aws_requests_auth.aws_auth import AWSRequestsAuth
 import jwt
 from HQApi.exceptions import ApiResponseError, BannedIPError
 
@@ -47,9 +46,6 @@ class BaseHQApi:
             "username": name,
             "verificationId": verificationid})
 
-    def aws_credentials(self):
-        return self.fetch("GET", "credentials/s3")
-
     def delete_avatar(self):
         return self.fetch("DELETE", "users/me/avatarUrl")
 
@@ -87,18 +83,26 @@ class BaseHQApi:
     def register_device_token(self, token):
         return self.fetch("POST", "users/me/devices", {"token": token})
 
-    def change_avatar(self, url):
-        return self.fetch("PUT", "users/me/avatarUrl", {"avatarUrl": url})
+    def config(self):
+        return self.fetch("GET", "config")
 
-    def upload_avatar(self, file):
-        aws = self.aws_credentials()
-        requests.put("https://hypespace-quiz.s3.amazonaws.com/avatars/{}".format(file),
-                     data=open(file, 'rb').read(), auth=AWSRequestsAuth(aws_access_key=aws["accessKeyId"],
-                                                                        aws_secret_access_key=aws["secretKey"],
-                                                                        aws_token=aws["sessionToken"],
-                                                                        aws_host='hypespace-quiz.s3.amazonaws.com',
-                                                                        aws_region='us-east-1',
-                                                                        aws_service='s3'), headers={"Content-Type": "text/html"})
+    def get_optins(self):
+        return self.fetch("GET", "opt-in")
+
+    def set_optin(self, name: str, value: bool):
+        return self.fetch("POST", "opt-in", {"value": value, "opt": name})
+
+    def season_xp(self):
+        return self.fetch("GET", "seasonXp/settings")
+
+    def referrals(self):
+        return self.fetch("GET", "show-referrals")
+
+    def leaderboard(self, mode: str):
+        return self.fetch("GET", "users/leaderboard?mode={}".format(mode))
+
+    def set_avatar(self, file: str):
+        return self.fetch("POST", "users/me/avatar", files={"file": ("file", open(file, 'rb').read(), 'image/jpeg')})
 
     def custom(self, method, func, data):
         return self.fetch(method, func, data)
@@ -106,7 +110,7 @@ class BaseHQApi:
 
 class HQApi(BaseHQApi):
     def __init__(self, token: str = None, logintoken: str = None,
-                 version: str = "1.34.0", host: str = "https://api-quiz.hype.space/",
+                 version: str = "1.37.2", host: str = "https://api-quiz.hype.space/",
                  proxy: str = None):
         super().__init__(token, logintoken)
         self.token = token
@@ -123,7 +127,7 @@ class HQApi(BaseHQApi):
                 "Authorization": "Bearer " + self.token,
                 "x-hq-client": "Android/" + self.version}
 
-    def fetch(self, method="GET", func="", data=None):
+    def fetch(self, method="GET", func="", data=None, files=None):
         if data is None:
             data = {}
         try:
@@ -132,7 +136,7 @@ class HQApi(BaseHQApi):
                                        headers=self.headers, proxies=self.p).json()
             elif method == "POST":
                 content = requests.post(self.host + "{}".format(func), data=data,
-                                        headers=self.headers, proxies=self.p).json()
+                                        headers=self.headers, proxies=self.p, files=files).json()
             elif method == "PATCH":
                 content = requests.patch(self.host + "{}".format(func), data=data,
                                          headers=self.headers, proxies=self.p).json()
