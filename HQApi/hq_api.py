@@ -1,6 +1,8 @@
 import json
-import requests
+
 import jwt
+import requests
+
 from HQApi.exceptions import ApiResponseError, BannedIPError
 
 
@@ -26,6 +28,9 @@ class BaseHQApi:
 
     def get_show(self):
         return self.fetch("GET", "shows/now")
+
+    def get_schedule(self):
+        return self.fetch("GET", 'shows/schedule')
 
     def easter_egg(self, type: str = "makeItRain"):
         return self.fetch("POST", "easter-eggs/{}".format(type))
@@ -104,13 +109,25 @@ class BaseHQApi:
     def set_avatar(self, file: str):
         return self.fetch("POST", "users/me/avatar", files={"file": ("file", open(file, 'rb').read(), 'image/jpeg')})
 
+    def store(self):
+        return self.fetch("GET", "store/products")
+
+    def start_offair(self):
+        return self.fetch('POST', "offair-trivia/start-game")
+
+    def offair_trivia(self, id: str):
+        return self.fetch('GET', 'offair-trivia/{}'.format(id))
+
+    def send_offair_answer(self, id: str, answer_id: str):
+        return self.fetch('POST', 'offair-trivia/{}/answers'.format(id), {"offairAnswerId": answer_id})
+
     def custom(self, method, func, data):
         return self.fetch(method, func, data)
 
 
 class HQApi(BaseHQApi):
     def __init__(self, token: str = None, logintoken: str = None,
-                 version: str = "1.37.2", host: str = "https://api-quiz.hype.space/",
+                 version: str = "1.39.0", host: str = "https://api-quiz.hype.space/",
                  proxy: str = None):
         super().__init__(token, logintoken)
         self.token = token
