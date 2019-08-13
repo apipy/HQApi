@@ -35,6 +35,9 @@ print(api.get_show())
 | `register_login.py` | [Login or register](https://github.com/apipy/HQApi/blob/master/examples/register_login.py)         |
 | `websocket.py`      | [Work with websocket](https://github.com/apipy/HQApi/blob/master/examples/websocket.py)            |
 | `websocket_event.py`| [Websocket with events](https://github.com/apipy/HQApi/blob/master/examples/websocket_event.py)    |
+| `decode_token.py`   | [Decode JWT token](https://github.com/apipy/HQApi/blob/master/examples/decode_token.py)            |
+| `upload_avatar.py`  | [Upload avatar](https://github.com/apipy/HQApi/blob/master/examples/websocket_event.py)            |
+| `offair_trivia.py`  | [Offair trivia](https://github.com/apipy/HQApi/blob/master/examples/websocket_event.py)            |
 
 ## Tor
 [How to setup Tor to bypass rate limits](https://github.com/apipy/HQApi/blob/master/tor.md)
