@@ -1,7 +1,5 @@
-# HQApi
+# HQApi [![Join the chat at https://gitter.im/HQApi/community](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/HQApi/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [![Build Status](https://travis-ci.org/apipy/HQApi.svg?branch=master)](https://travis-ci.org/apipy/HQApi) [![Downloads](https://pepy.tech/badge/hqapi)](https://pepy.tech/project/hqapi)
 HQ Trivia & Words API, written in Python 
-
-[![Build Status](https://travis-ci.org/apipy/HQApi.svg?branch=master)](https://travis-ci.org/apipy/HQApi) [![Downloads](https://pepy.tech/badge/hqapi)](https://pepy.tech/project/hqapi)
 
 ## Installation
 1. Install from pip (Outdated, use sources method):
