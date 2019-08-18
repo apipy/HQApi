@@ -22,7 +22,8 @@ class HQWebSocket:
             if demo:
                 self.use_demo = True
             else:
-                raise WebSocketNotAvailable("You can't use websocket without token")
+                if not self.custom_ws:
+                    raise WebSocketNotAvailable("You can't use websocket without token")
         try:
             self.show = HQApi.get_show(api)
             self.socket = self.show["broadcast"]["socketUrl"].replace("https", "wss")
@@ -31,12 +32,14 @@ class HQWebSocket:
             if demo:
                 self.use_demo = True
             else:
-                raise WebSocketNotAvailable("You can't use websocket with banned IP or invalid auth")
+                if not self.custom_ws:
+                    raise WebSocketNotAvailable("You can't use websocket with banned IP or invalid auth")
         except:
             if demo:
                 self.use_demo = True
             else:
-                raise NotLive("Show isn't live and demo mode is disabled")
+                if not self.custom_ws:
+                    raise NotLive("Show isn't live and demo mode is disabled")
         if self.use_demo:
             print("[HQApi] Using demo websocket! Don't create issues with this websocket")
             self.socket = "wss://hqecho.herokuapp.com"  # Websocket with questions 24/7
@@ -176,7 +179,7 @@ class HQWebSocket:
         self.ws.close()
 
     def __str__(self):
-        return "<HQWebsocket 2.4.1 token={}>".format(self.token)
+        return "<HQWebsocket {} token={}>".format(self.api.version, self.token)
 
 
 class HQWebsocketListener(threading.Thread):

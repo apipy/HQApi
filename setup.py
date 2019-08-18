@@ -1,11 +1,12 @@
 import setuptools
+from HQApi import HQApi
 
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
     name="HQApi",
-    version="2.4.1",
+    version=HQApi().version,
     author="Katant",
     author_email="katant.savelev@yandex.ru",
     description="HQ Trivia & Words API",
