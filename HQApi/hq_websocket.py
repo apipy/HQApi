@@ -9,12 +9,13 @@ from HQApi.exceptions import NotLive, WebSocketNotAvailable, ApiResponseError, B
 
 
 class HQWebSocket:
-    def __init__(self, api: HQApi, demo: bool = False):
+    def __init__(self, api: HQApi, demo: bool = False, custom_ws: str = None):
         self.api = api
         self.handlers = {}
         self.token = self.api.token
         self.headers = self.api.headers
         self.use_demo = False
+        self.custom_ws = custom_ws
         try:
             self.headers["Authorization"]
         except:
@@ -39,6 +40,11 @@ class HQWebSocket:
         if self.use_demo:
             print("[HQApi] Using demo websocket! Don't create issues with this websocket")
             self.socket = "wss://hqecho.herokuapp.com"  # Websocket with questions 24/7
+            self.broadcast = 1
+            self.ws = WebSocket(self.socket)
+        elif self.custom_ws:
+            print("[HQApi] Using custom websocket! Don't create issues with this websocket")
+            self.socket = self.custom_ws
             self.broadcast = 1
             self.ws = WebSocket(self.socket)
         else:
@@ -170,7 +176,7 @@ class HQWebSocket:
         self.ws.close()
 
     def __str__(self):
-        return "<HQWebsocket 2.4.0 token={}>".format(self.token)
+        return "<HQWebsocket 2.4.1 token={}>".format(self.token)
 
 
 class HQWebsocketListener(threading.Thread):
