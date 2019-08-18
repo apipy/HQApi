@@ -128,44 +128,44 @@ class BaseHQApi:
 class HQApi(BaseHQApi):
     def __init__(self, token: str = None, logintoken: str = None,
                  version: str = "1.39.0", host: str = "https://api-quiz.hype.space/",
-                 proxy: str = None):
+                 proxy: str = None, verify: bool = True):
         super().__init__(token, logintoken)
+        self.session = requests.Session()
         self.token = token
         self.logintoken = logintoken
         self.version = version
         self.host = host
+        self.v = verify
         self.p = dict(http=proxy, https=proxy)
         self.headers = {
             "x-hq-client": "Android/" + self.version}
         if logintoken:
             self.token = self.get_tokens(logintoken)["accessToken"]
         if self.token:
-            self.headers = {
-                "Authorization": "Bearer " + self.token,
-                "x-hq-client": "Android/" + self.version}
+            self.headers["Authorization"] = "Bearer " + self.token
 
     def fetch(self, method="GET", func="", data=None, files=None):
         if data is None:
             data = {}
         try:
             if method == "GET":
-                content = requests.get(self.host + "{}".format(func), data=data,
-                                       headers=self.headers, proxies=self.p).json()
+                content = self.session.get(self.host + "{}".format(func), data=data,
+                                           headers=self.headers, proxies=self.p, verify=self.v).json()
             elif method == "POST":
-                content = requests.post(self.host + "{}".format(func), data=data,
-                                        headers=self.headers, proxies=self.p, files=files).json()
+                content = self.session.post(self.host + "{}".format(func), data=data,
+                                            headers=self.headers, proxies=self.p, files=files, verify=self.v).json()
             elif method == "PATCH":
-                content = requests.patch(self.host + "{}".format(func), data=data,
-                                         headers=self.headers, proxies=self.p).json()
+                content = self.session.patch(self.host + "{}".format(func), data=data,
+                                             headers=self.headers, proxies=self.p, verify=self.v).json()
             elif method == "DELETE":
-                content = requests.delete(self.host + "{}".format(func), data=data,
-                                          headers=self.headers, proxies=self.p).json()
+                content = self.session.delete(self.host + "{}".format(func), data=data,
+                                              headers=self.headers, proxies=self.p, verify=self.v).json()
             elif method == "PUT":
-                content = requests.put(self.host + "{}".format(func), data=data,
-                                       headers=self.headers, proxies=self.p).json()
+                content = self.session.put(self.host + "{}".format(func), data=data,
+                                           headers=self.headers, proxies=self.p, verify=self.v).json()
             else:
-                content = requests.get(self.host + "{}".format(func), data=data,
-                                       headers=self.headers, proxies=self.p).json()
+                content = self.session.get(self.host + "{}".format(func), data=data,
+                                           headers=self.headers, proxies=self.p, verify=self.v).json()
             error = content.get("error")
             if error:
                 raise ApiResponseError(json.dumps(content))
@@ -175,3 +175,11 @@ class HQApi(BaseHQApi):
 
     def decode_jwt(self, jwt_text: str):
         return jwt.decode(jwt_text.encode(), verify=False)
+
+    def set_token(self, token):
+        self.token = token
+        if self.token:
+            self.headers["Authorization"] = "Bearer " + self.token
+
+    def __str__(self):
+        return "<HQApi 2.4.0 token={}>".format(self.token)

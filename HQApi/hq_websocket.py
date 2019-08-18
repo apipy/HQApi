@@ -1,7 +1,9 @@
 import json
 import threading
+
 from lomond import WebSocket
 from lomond.persist import persist
+
 from HQApi import HQApi
 from HQApi.exceptions import NotLive, WebSocketNotAvailable, ApiResponseError, BannedIPError
 
@@ -166,6 +168,9 @@ class HQWebSocket:
 
     def close(self):
         self.ws.close()
+
+    def __str__(self):
+        return "<HQWebsocket 2.4.0 token={}>".format(self.token)
 
 
 class HQWebsocketListener(threading.Thread):
