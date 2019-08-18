@@ -2,7 +2,6 @@ import json
 
 import jwt
 import requests
-
 from HQApi.exceptions import ApiResponseError, BannedIPError
 
 
@@ -130,15 +129,16 @@ class HQApi(BaseHQApi):
                  version: str = "1.39.0", host: str = "https://api-quiz.hype.space/",
                  proxy: str = None, verify: bool = True):
         super().__init__(token, logintoken)
+        self.version = "2.4.2"
         self.session = requests.Session()
         self.token = token
         self.logintoken = logintoken
-        self.version = version
+        self.hq_version = version
         self.host = host
         self.v = verify
         self.p = dict(http=proxy, https=proxy)
         self.headers = {
-            "x-hq-client": "Android/" + self.version}
+            "x-hq-client": "Android/" + self.hq_version}
         if logintoken:
             self.token = self.get_tokens(logintoken)["accessToken"]
         if self.token:
@@ -182,4 +182,4 @@ class HQApi(BaseHQApi):
             self.headers["Authorization"] = "Bearer " + self.token
 
     def __str__(self):
-        return "<HQApi 2.4.1 token={}>".format(self.token)
+        return "<HQApi {} token={}>".format(self.version, self.token)
