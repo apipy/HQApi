@@ -182,4 +182,4 @@ class HQApi(BaseHQApi):
             self.headers["Authorization"] = "Bearer " + self.token
 
     def __str__(self):
-        return "<HQApi 2.4.0 token={}>".format(self.token)
+        return "<HQApi 2.4.1 token={}>".format(self.token)
