@@ -41,12 +41,10 @@ class HQWebSocket:
                 if not self.custom_ws:
                     raise NotLive("Show isn't live and demo mode is disabled")
         if self.use_demo:
-            print("[HQApi] Using demo websocket! Don't create issues with this websocket")
             self.socket = "wss://hqecho.herokuapp.com"  # Websocket with questions 24/7
             self.broadcast = 1
             self.ws = WebSocket(self.socket)
         elif self.custom_ws:
-            print("[HQApi] Using custom websocket! Don't create issues with this websocket")
             self.socket = self.custom_ws
             self.broadcast = 1
             self.ws = WebSocket(self.socket)
