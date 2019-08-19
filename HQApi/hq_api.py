@@ -129,7 +129,7 @@ class HQApi(BaseHQApi):
                  version: str = "1.39.0", host: str = "https://api-quiz.hype.space/",
                  proxy: str = None, verify: bool = True):
         super().__init__(token, logintoken)
-        self.version = "2.4.2"
+        self.version = "2.4.3"
         self.session = requests.Session()
         self.token = token
         self.logintoken = logintoken
