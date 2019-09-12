@@ -43,6 +43,7 @@ matrix:
     - source env/bin/activate
     - alias pip="pip3"
 install:
+  - "python3 -m pip install requests lomond PyJWT"
   - "python3 -m pip install --upgrade pip setuptools"
   - "python3 setup.py install"
 script:
