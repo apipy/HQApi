@@ -1,7 +1,5 @@
-# HQApi [![Join the chat at https://gitter.im/HQApi/community](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/HQApi/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [![Build Status](https://travis-ci.org/apipy/HQApi.svg?branch=master)](https://travis-ci.org/apipy/HQApi) [![Downloads](https://pepy.tech/badge/hqapi)](https://pepy.tech/project/hqapi)
-HQ Trivia & Words API, written in Python.
-
-Version 2.4.x may be the latest version of HQApi 2.x. We are already developing 3.x version that will not be compatible with version 1.x and 2.x.
+# [unmaintained] HQApi [![Join the chat at https://gitter.im/HQApi/community](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/HQApi/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [![Build Status](https://travis-ci.org/apipy/HQApi.svg?branch=master)](https://travis-ci.org/apipy/HQApi) [![Downloads](https://pepy.tech/badge/hqapi)](https://pepy.tech/project/hqapi)
+HQ Trivia & Words API, written in Python. Probably outdated. 
 
 ## Installation
 1. Install from pip
