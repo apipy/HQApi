@@ -13,7 +13,7 @@ while True:
     print("Question {0}/{1}".format(offair['question']['questionNumber'], offair['questionCount']))
     print(offair['question']['question'])
     for answer in offair['question']['answers']:
-        print('{0}. {1}'.format(answer['answerId'], answer['text']))
+        print('{0}. {1}'.format(answer['offairAnswerId'], answer['text']))
     select = int(input('Select answer [1-3] > '))
     answer = api.send_offair_answer(offair_id, offair['question']['answers'][select - 1]['offairAnswerId'])
     print('You got it right: ' + str(answer['youGotItRight']))
