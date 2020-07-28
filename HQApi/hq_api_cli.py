@@ -4,7 +4,7 @@ from HQApi import HQApi
 
 
 def fetch(args):
-    api = HQApi(logintoken=args.logintoken, token=args.token)
+    api = HQApi(login_token=args.login_token, token=args.token)
     print(api.fetch(method=args.method, func=args.function, data=args.data))
 
 
@@ -14,7 +14,7 @@ def main(args=None):
         '--token', help='JWT token'
     )
     parser.add_argument(
-        '--logintoken', help='Login token'
+        '--login_token', help='Login token'
     )
     parser.add_argument(
         '--method', help='Method', default="GET"
