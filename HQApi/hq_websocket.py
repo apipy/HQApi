@@ -1,9 +1,7 @@
 import json
 import threading
-
 from lomond import WebSocket
 from lomond.persist import persist
-
 from HQApi import HQApi
 from HQApi.exceptions import NotLive, WebSocketNotAvailable, ApiResponseError, BannedIPError
 
@@ -140,11 +138,11 @@ class HQWebSocket:
             "toUser": user,
             "waveText": wave_text})
 
-    def send_survey_answer(self, answer: str, question: str):
+    def send_survey_answer(self, answer_id: str, question_id: str):
         self.send_json({
             "type": "surveyAnswer",
-            "surveyAnswerId": answer,
-            "surveyQuestionId": question})
+            "surveyAnswerId": answer_id,
+            "surveyQuestionId": question_id})
 
     def toggle_sharing(self, enabled: bool):
         self.send_json({
@@ -159,14 +157,14 @@ class HQWebSocket:
                         "type": "viewerSnapshot",
                         "snapRequestId": request})
 
-    def answer_multi(self, answerIds: list, questionId: int):
+    def answer_multi(self, answer_ids: list, question_id: int):
         self.send_json({"type": "answerMulti",
-                        "answerIds": answerIds,
-                        "questionId": questionId})
+                        "answerIds": answer_ids,
+                        "questionId": question_id})
 
-    def joke_vote(self, sessionId: str, vote: str):
+    def joke_vote(self, session_id: str, vote: str):
         self.send_json({"type": "jokeVote",
-                        "jokeSessionId": sessionId,
+                        "jokeSessionId": session_id,
                         "vote": vote})
 
     def outgoing_chat(self, msg: str):

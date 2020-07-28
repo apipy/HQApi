@@ -133,7 +133,7 @@ class HQApi(BaseHQApi):
                  proxy: str = None, verify: bool = True, country: str = "US", lang: str = "en",
                  timezone: str = "America/New_York"):
         super().__init__(token, login_token)
-        self.version = "2.5.0"
+        self.version = "2.5.1"
         self.session = requests.Session()
         self.token = token
         self.login_token = login_token
