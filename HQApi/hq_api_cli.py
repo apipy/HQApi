@@ -1,5 +1,4 @@
 import argparse
-
 from HQApi import HQApi
 
 
