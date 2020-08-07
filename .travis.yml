@@ -5,12 +5,11 @@ python:
   - "3.6"
   - "3.7"
   - "3.8"
-  - "3.8-dev"
   - "nightly"
 install:
-  - python3 -m pip list --outdated --format=freeze | grep -v '^\-e' | cut -d = -f 1  | xargs -n1 python3 -m pip install -U
-  - python3 -m pip install requests lomond PyJWT
-  - python3 -m pip install --upgrade pip setuptools
+  - python3 -m pip list --outdated --format=freeze | grep -v '^\-e' | cut -d = -f 1  | xargs -n1 python3 -m pip install -U || true
+  - python3 -m pip install requests lomond PyJWT || true
+  - python3 -m pip install --upgrade pip setuptools || true
   - python3 setup.py install
 script:
   - "python3 tests/decode_token.py"
