@@ -133,7 +133,7 @@ class HQApi(BaseHQApi):
                  proxy: str = None, verify: bool = True, country: str = "US", lang: str = "en",
                  timezone: str = "America/New_York"):
         super().__init__(token, login_token)
-        self.version = "2.6.0"
+        self.version = "2.6.1"
         self.session = requests.Session()
         self.token = token
         self.login_token = login_token
@@ -184,7 +184,7 @@ class HQApi(BaseHQApi):
 
     @staticmethod
     def decode_jwt(jwt_text: str):
-        return jwt.decode(jwt_text.encode(), verify=False, algorithm="HS256")
+        return jwt.decode(jwt_text.encode(), options={"verify_signature": False})
 
     def set_token(self, token):
         self.token = token
